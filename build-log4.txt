@@ -1,0 +1,16 @@
+
+> innovare-ieee@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/components/sections/JoinUs.tsx
+Module not found: Can't resolve '@/components/ui/form'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors

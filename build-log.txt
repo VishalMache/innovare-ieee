@@ -1,0 +1,39 @@
+
+> innovare-ieee@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/components/animations/Cursor.tsx
+Module not found: Can't resolve 'framer-motion'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/components/animations/Fallback3D.tsx
+Module not found: Can't resolve 'framer-motion'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/components/sections/HeroSection.tsx
+
+./src/components/animations/PageLoader.tsx
+Module not found: Can't resolve 'framer-motion'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/components/animations/SmoothScroll.tsx
+Module not found: Can't resolve 'lenis/react'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/components/layout/Footer.tsx
+Module not found: Can't resolve 'framer-motion'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors
