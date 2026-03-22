@@ -48,15 +48,15 @@ export function Navbar() {
         
         <Link 
           href="/" 
-          className="relative text-xl font-bold tracking-tighter flex items-center gap-1 group overflow-hidden" 
+          className="relative flex items-center justify-center h-10 w-32 group overflow-visible" 
           data-cursor="hover"
         >
-          <motion.span 
-            className="text-white group-hover:text-primary transition-colors duration-300"
-          >
-            INNOVARE
-          </motion.span>
-          <span className="text-primary group-hover:scale-150 transition-transform duration-500">.</span>
+          <img 
+            src="/logo.png" 
+            alt="INNOVARE Logo" 
+            className="h-full w-auto object-contain transition-transform duration-300"
+            style={{ transform: 'scale(4.5) translateY(2px)', transformOrigin: 'center' }}
+          />
         </Link>
         
         <nav className="hidden md:flex items-center relative gap-1">

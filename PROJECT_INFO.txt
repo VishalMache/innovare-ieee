@@ -1,0 +1,566 @@
+================================================================================
+  INNOVARE IEEE STUDENT BRANCH — PROJECT INFORMATION DOCUMENT
+  Generated: 2026-03-23
+================================================================================
+
+TABLE OF CONTENTS
+─────────────────
+ 1. Project Overview
+ 2. Tech Stack (Full Breakdown)
+ 3. Project Structure (Directory Tree)
+ 4. What Each File/Component Does
+ 5. Page Sections & Their Flow
+ 6. Backend & API
+ 7. Data Layer
+ 8. Design System & Styling
+ 9. Animation & Visual FX Pipeline
+10. 3D / Canvas System
+11. Forms & Validation
+12. Environment Variables / Config
+13. Fonts & Assets
+14. Dev Scripts & Commands
+15. Key Architecture Decisions
+
+================================================================================
+1. PROJECT OVERVIEW
+================================================================================
+
+Name        : INNOVARE IEEE Student Branch Website
+Type        : Marketing / Showcase Website (Single Page Application)
+Framework   : Next.js 14 (App Router)
+Language    : TypeScript
+Purpose     : Official website for the INNOVARE IEEE Student Branch.
+              Showcases the team, projects, timeline of events, and allows
+              students to apply/join the branch via a form.
+
+Design Theme: Futuristic, dark, minimal. Uses deep navy/black backgrounds,
+              steel-blue (#5EA3C1) accents, glass morphism cards, and
+              space-inspired animations (orbiting star particles, glowing orb).
+
+Status      : In active development. Some team member slots are placeholder data.
+
+
+================================================================================
+2. TECH STACK (FULL BREAKDOWN)
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  LAYER              │  TECHNOLOGY                   │  VERSION              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  Framework          │  Next.js                      │  14.2.35              │
+│  Language           │  TypeScript                   │  ^5                   │
+│  UI Library         │  React / React DOM            │  ^18                  │
+│  Styling            │  Tailwind CSS                 │  ^4.2.2               │
+│  CSS Animations     │  tailwindcss-animate          │  ^1.0.7               │
+│                     │  tw-animate-css               │  ^1.4.0               │
+│  Component System   │  shadcn/ui (headless base)    │  ^4.1.0               │
+│  Variant Styling    │  class-variance-authority     │  ^0.7.1               │
+│  Class Merger       │  clsx + tailwind-merge        │  latest               │
+│  Motion / Anim.     │  Framer Motion                │  ^12.38.0             │
+│  Motion / GSAP      │  GSAP (GreenSock)             │  ^3.14.2              │
+│  Smooth Scroll      │  Lenis                        │  ^1.3.19              │
+│  3D / Canvas        │  React Three Fiber            │  ^8.17.10             │
+│                     │  @react-three/drei            │  ^9.117.3             │
+│  Globe              │  cobe                         │  ^2.0.1               │
+│  Icons              │  lucide-react                 │  ^0.577.0             │
+│  Forms              │  react-hook-form              │  ^7.71.2              │
+│  Validation         │  Zod                          │  ^4.3.6               │
+│  Form Resolvers     │  @hookform/resolvers          │  ^5.2.2               │
+│  Database           │  Supabase (PostgreSQL)        │  ^2.99.3              │
+│  Email              │  Resend                       │  ^6.9.4               │
+│  UI Primitives      │  @base-ui/react               │  ^1.3.0               │
+│  Linting            │  ESLint + eslint-config-next  │  ^8 / 14.2.35         │
+│  Post-processing    │  PostCSS                      │  ^8                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+MAJORITY STACK USAGE (by code coverage):
+ - Next.js App Router   ████████████████░░  80%  (routing, layout, API routes)
+ - Tailwind CSS         ████████████████░░  80%  (all styling across components)
+ - Framer Motion        █████████████░░░░░  65%  (hero, section reveal anim.)
+ - TypeScript           ████████████████████ 100% (every .ts/.tsx file)
+ - React Hook Form + Zod ████░░░░░░░░░░░  20%  (JoinUs section only)
+ - Supabase             ███░░░░░░░░░░░░░░  15%  (API route, DB insert)
+ - Resend               ███░░░░░░░░░░░░░░  15%  (API route, confirmation email)
+ - Lenis                ██░░░░░░░░░░░░░░░  10%  (SmoothScroll wrapper)
+ - React Three Fiber    ██░░░░░░░░░░░░░░░  10%  (HeroScene canvas)
+ - GSAP                 ██░░░░░░░░░░░░░░░  10%  (scroll-trigger animations)
+
+
+================================================================================
+3. PROJECT STRUCTURE (DIRECTORY TREE)
+================================================================================
+
+innovare-ieee/
+├── public/
+│   └── ieee-bg.mp4               ← Hero video (IEEE branding loop, ~1.5MB)
+│
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── join/
+│   │   │       └── route.ts       ← POST API: handle join form submissions
+│   │   ├── fonts/
+│   │   │   ├── GeistVF.woff       ← Primary font (sans)
+│   │   │   └── GeistMonoVF.woff   ← Mono font (code/accents)
+│   │   ├── favicon.ico
+│   │   ├── globals.css            ← Global styles, CSS variables, dark theme
+│   │   ├── layout.tsx             ← Root layout: fonts, metadata, providers
+│   │   └── page.tsx               ← Main page: section assembly
+│   │
+│   ├── components/
+│   │   ├── 3d/
+│   │   │   └── HeroScene.tsx      ← Canvas 2D: orbiting star particles + orb
+│   │   │
+│   │   ├── animations/
+│   │   │   ├── Cursor.tsx         ← Custom magnetic cursor
+│   │   │   ├── Fallback3D.tsx     ← Fallback for when canvas fails/loads
+│   │   │   ├── PageLoader.tsx     ← Full-screen loading animation
+│   │   │   └── SmoothScroll.tsx   ← Lenis smooth scroll wrapper
+│   │   │
+│   │   ├── effects/
+│   │   │   ├── GlowLayer.tsx      ← Ambient glow overlay effect
+│   │   │   └── GrainOverlay.tsx   ← Film grain texture overlay
+│   │   │
+│   │   ├── layout/
+│   │   │   ├── Navbar.tsx         ← Sticky top navigation bar
+│   │   │   └── Footer.tsx         ← Site footer
+│   │   │
+│   │   ├── sections/              ← All page sections (main content)
+│   │   │   ├── HeroSection.tsx    ← Hero: headline, CTA, 3D bg, video
+│   │   │   ├── LogosStrip.tsx     ← Scrolling logos/partner strip
+│   │   │   ├── StatsCounter.tsx   ← Animated stats (members, projects, etc.)
+│   │   │   ├── WhoWeAre.tsx       ← About / mission section
+│   │   │   ├── ProjectShowcase.tsx← Project cards with interactions
+│   │   │   ├── Timeline.tsx       ← Events timeline (vertical scroll)
+│   │   │   ├── WallOfFame.tsx     ← Achievements / recognition display
+│   │   │   ├── Team.tsx           ← Team members in 3D arc carousel
+│   │   │   ├── FAQ.tsx            ← Accordion FAQ section
+│   │   │   └── JoinUs.tsx         ← Join form with Supabase + Resend
+│   │   │
+│   │   └── ui/                    ← shadcn/ui base components
+│   │       ├── accordion.tsx      ← Used in FAQ section
+│   │       ├── button.tsx         ← Primary button variants
+│   │       ├── form.tsx           ← Form field wrappers (react-hook-form)
+│   │       ├── input.tsx          ← Styled input component
+│   │       └── label.tsx          ← Form label component
+│   │
+│   ├── data/
+│   │   └── team-members.ts        ← Team roster data (25 slots, editable)
+│   │
+│   └── lib/
+│       ├── constants.ts           ← Animation durations + content copy
+│       └── utils.ts               ← cn() (clsx + tailwind-merge helper)
+│
+├── .eslintrc.json                 ← ESLint rules
+├── components.json                ← shadcn/ui config
+├── next.config.mjs                ← Next.js config
+├── package.json                   ← Dependencies & scripts
+├── postcss.config.mjs             ← PostCSS (Tailwind processing)
+└── tsconfig.json                  ← TypeScript config
+
+
+================================================================================
+4. WHAT EACH FILE / COMPONENT DOES
+================================================================================
+
+── ROOT LAYOUT (src/app/layout.tsx) ─────────────────────────────────────────
+  The root shell of the entire website. Does the following:
+  • Loads Geist Sans and Geist Mono as local variable fonts.
+  • Sets SEO metadata: page title and meta description.
+  • Forces dark mode via "dark" class on <html>.
+  • Injects global providers in order: Cursor → PageLoader → SmoothScroll.
+  • Wraps content with Navbar (top) and Footer (bottom).
+
+── MAIN PAGE (src/app/page.tsx) ───────────────────────────────────────────────
+  Assembles all section components in vertical order:
+    HeroSection → LogosStrip → StatsCounter → WhoWeAre →
+    ProjectShowcase → Timeline → WallOfFame → Team → FAQ → JoinUs
+
+── API ROUTE (src/app/api/join/route.ts) ──────────────────────────────────────
+  Handles POST requests from the JoinUs form:
+    1. Validates required fields: name, email, branch, year.
+    2. Inserts a row into Supabase `applications` table.
+    3. Sends a confirmation email via Resend to the applicant.
+    4. Returns { success: true } to trigger frontend animations.
+  All keys are pulled from environment variables (with placeholder fallbacks).
+
+── HEROSCENE (src/components/3d/HeroScene.tsx) ─────────────────────────────────
+  Pure Canvas 2D animation component. No Three.js — uses raw HTML Canvas API.
+  Renders two layers:
+    • A radial-gradient "orb" at center-top (glowing blue-white sphere).
+    • 220 star particles that orbit the orb in elliptical paths.
+  Stars: each has unique angle, orbit radius, speed, size, alpha, twinkle phase.
+  Animates via requestAnimationFrame. Fully responsive via ResizeObserver.
+
+── HEROSECTION (src/components/sections/HeroSection.tsx) ────────────────────
+  Main hero section. Divided into two columns (grid):
+    Left:  Animated headline (Framer Motion fadeIn from below), sub-headline,
+           two CTA buttons ("Join Us" → #join, "Explore Projects" → #projects).
+    Right: Autoplay muted looping video (ieee-bg.mp4) with mix-blend-mode:screen.
+  The HeroScene canvas sits as an absolute background layer behind everything.
+  Uses Next.js dynamic() import with ssr:false so the canvas only renders client-side.
+  Uses Fallback3D component as Suspense fallback during canvas load.
+
+── CURSOR (src/components/animations/Cursor.tsx) ─────────────────────────────
+  Custom cursor that follows the mouse. Detects elements with data-cursor="hover"
+  attribute and morphs into a larger state. Adds a premium interactive feel.
+
+── PAGELOADER (src/components/animations/PageLoader.tsx) ─────────────────────
+  Full-screen overlay that plays on first load. Fades out after assets are ready.
+  Includes a progress indicator or branding animation.
+
+── SMOOTHSCROLL (src/components/animations/SmoothScroll.tsx) ─────────────────
+  Wrapper around the Lenis library. Provides buttery smooth inertia-based
+  scrolling across the entire page.
+
+── FALLBACK3D (src/components/animations/Fallback3D.tsx) ─────────────────────
+  Shown while HeroScene canvas is loading or if WebGL/Canvas is unavailable.
+  Provides a CSS-only fallback so the page never looks broken.
+
+── GLOWLAYER (src/components/effects/GlowLayer.tsx) ──────────────────────────
+  Ambient radial glow div layered over sections for depth and atmosphere.
+
+── GRAINOVERLAY (src/components/effects/GrainOverlay.tsx) ────────────────────
+  SVG/CSS film grain overlay for a premium, textured feel over flat backgrounds.
+
+── NAVBAR (src/components/layout/Navbar.tsx) ─────────────────────────────────
+  Sticky top navigation. Contains logo, nav links to page sections, and CTA.
+  Likely has scroll-aware opacity/blur effect.
+
+── FOOTER (src/components/layout/Footer.tsx) ─────────────────────────────────
+  Site footer: social links, copyright, navigation shortcuts.
+
+── LOGOSSTRIP (src/components/sections/LogosStrip.tsx) ───────────────────────
+  Horizontally scrolling marquee strip of tech/partner logos.
+
+── STATSCOUNTER (src/components/sections/StatsCounter.tsx) ──────────────────
+  Animated counter section. Numbers count up when scrolled into view.
+  Example stats: "50+ Members", "20+ Projects", etc.
+
+── WHOWEARE (src/components/sections/WhoWeAre.tsx) ──────────────────────────
+  About section explaining the student branch mission and vision.
+
+── PROJECTSHOWCASE (src/components/sections/ProjectShowcase.tsx) ─────────────
+  Displays the team's engineering projects in interactive cards.
+  Largest section file at ~9.7KB. Likely includes hover effects, project
+  descriptions, tech tags, and links.
+
+── TIMELINE (src/components/sections/Timeline.tsx) ───────────────────────────
+  Vertical scroll-based timeline of events, milestones, and workshops.
+  Uses GSAP ScrollTrigger for reveal animations.
+
+── WALLOFFAME (src/components/sections/WallOfFame.tsx) ───────────────────────
+  Recognition section showing awards, achievements, or notable alumni.
+
+── TEAM (src/components/sections/Team.tsx) ───────────────────────────────────
+  Largest section at ~14.2KB. Displays team members in a 3D network arc
+  carousel. Members are pulled from src/data/team-members.ts.
+  Each card shows: name, role, bio, profile image, initials fallback,
+  and optional GitHub/LinkedIn/Twitter links.
+
+── FAQ (src/components/sections/FAQ.tsx) ─────────────────────────────────────
+  Frequently Asked Questions using the shadcn Accordion component.
+  Smooth expand/collapse with animation.
+
+── JOINUS (src/components/sections/JoinUs.tsx) ───────────────────────────────
+  The join/application form section. Uses react-hook-form + Zod for
+  validation. Fields: name, email, branch (department), year of study.
+  On submit: calls POST /api/join → inserts to Supabase → sends email via Resend.
+  Triggers a success animation after valid submission.
+
+
+================================================================================
+5. PAGE SECTIONS & THEIR FLOW (TOP TO BOTTOM)
+================================================================================
+
+  ┌──────────────────────────────────────────┐
+  │  ① HeroSection      (100vh fullscreen)  │  ← Canvas stars + video + CTA
+  ├──────────────────────────────────────────┤
+  │  ② LogosStrip       (short strip)       │  ← Scrolling partner logos
+  ├──────────────────────────────────────────┤
+  │  ③ StatsCounter     (short section)     │  ← Animated numbers
+  ├──────────────────────────────────────────┤
+  │  ④ WhoWeAre         (about section)     │  ← Mission + vision text
+  ├──────────────────────────────────────────┤
+  │  ⑤ ProjectShowcase  (large section)     │  ← Interactive project cards
+  ├──────────────────────────────────────────┤
+  │  ⑥ Timeline         (scroll section)    │  ← Events history
+  ├──────────────────────────────────────────┤
+  │  ⑦ WallOfFame       (medium section)    │  ← Achievements
+  ├──────────────────────────────────────────┤
+  │  ⑧ Team             (large section)     │  ← 3D arc member carousel
+  ├──────────────────────────────────────────┤
+  │  ⑨ FAQ              (short section)     │  ← Accordion Q&A
+  ├──────────────────────────────────────────┤
+  │  ⑩ JoinUs           (form section)      │  ← Application form
+  └──────────────────────────────────────────┘
+  ┌──────────────────────────────────────────┐
+  │  Footer                                  │
+  └──────────────────────────────────────────┘
+
+
+================================================================================
+6. BACKEND & API
+================================================================================
+
+  Endpoint : POST /api/join
+  File     : src/app/api/join/route.ts
+  Runtime  : Next.js Edge/Node API Route (App Router)
+
+  Flow:
+    1. Client (JoinUs form) sends POST with: { name, email, branch, year }
+    2. Server validates all 4 fields are present.
+    3. Supabase Insert → table: "applications"
+       Columns: name, email, branch, year_of_study
+    4. Resend Email → sends styled HTML email to applicant:
+       From: "INNOVARE IEEE <onboarding@innovare-ieee.org>"
+       Subject: "Welcome to the Future - INNOVARE IEEE"
+    5. Returns { success: true, data } with HTTP 200.
+    6. On any DB error, logs it but doesn't fail the request (graceful).
+    7. On email error, logs it but doesn't fail the request.
+
+  Note: No server-side Zod validation currently — only client-side via
+        react-hook-form handles validation before the request is made.
+
+
+================================================================================
+7. DATA LAYER
+================================================================================
+
+  src/data/team-members.ts
+  ─────────────────────────
+  TypeScript file exporting TEAM_MEMBERS array (25 entries).
+
+  TeamMember type:
+    name        : string   — Display name
+    role        : string   — Job title (e.g., "AI Researcher")
+    img         : string   — Profile image URL (currently using pravatar.cc)
+    initials    : string   — 1-2 letter fallback avatar (e.g., "AC")
+    bio         : string   — 1-3 sentence description
+    githubUrl?  : string   — Optional GitHub profile URL
+    linkedinUrl?: string   — Optional LinkedIn URL
+    twitterUrl? : string   — Optional Twitter/X URL
+
+  Status: First 4 members have real data. Members 5-25 are placeholder.
+  To-Do:  Replace placeholder entries with real team member info + photos.
+
+
+================================================================================
+8. DESIGN SYSTEM & STYLING
+================================================================================
+
+  Framework   : Tailwind CSS v4 (using @import "tailwindcss" syntax)
+  Theme Mode  : Dark mode forced globally via html.dark class
+  Design Vibe : Futuristic dark space — deep blacks, steel blue, white glows
+
+  Primary Color   : #5EA3C1  (steel blue — used for glows, borders, CTAs)
+  Background      : oklch(0.145 0 0)  ≈ very dark near-black
+  Foreground      : oklch(0.985 0 0)  ≈ off-white
+  Muted Text      : oklch(0.708 0 0)  ≈ medium gray
+
+  Typography:
+    Font Sans  : Geist VF (variable font, weights 100-900) — body + headings
+    Font Mono  : Geist Mono VF (variable font, weights 100-900) — code accents
+    Both are local fonts loaded in layout.tsx via next/font/local.
+
+  Custom Utilities:
+    .text-balance : text-wrap: balance (for headline wrapping)
+    @keyframes shimmer : shimmer sweep for loading skeletons
+
+  Radius Scale  : Custom 7-step scale from sm to 4xl using CSS calc()
+  Components    : shadcn/ui components in src/components/ui/
+                  Includes: accordion, button, form, input, label
+
+
+================================================================================
+9. ANIMATION & VISUAL FX PIPELINE
+================================================================================
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  TOOL          │  USED FOR                                              │
+  ├─────────────────────────────────────────────────────────────────────────┤
+  │  Framer Motion │  Hero text reveals (fadeIn/up), section entrances,     │
+  │                │  button hover/tap states, blur-in effects              │
+  │  GSAP          │  ScrollTrigger-based timeline reveals, complex         │
+  │                │  staggered animations for Timeline and ProjectShowcase │
+  │  Lenis         │  Global smooth scrolling with configurable inertia     │
+  │  Canvas 2D     │  HeroScene: star particles, glowing orb (no library)  │
+  │  CSS/Tailwind  │  Tailwindcss-animate for micro-transitions,           │
+  │                │  hover effects, shimmer keyframes                      │
+  │  Framer APIs   │  motion.div, initial/animate/transition props         │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  Animation Constants (src/lib/constants.ts):
+    ANIMATION.MAX_DURATION = 1.2s  ← Nothing longer than this
+    ANIMATION.FAST         = 0.3s  ← Micro-interactions
+    ANIMATION.NORMAL       = 0.6s  ← Standard transitions
+    ANIMATION.HERO         = 1.0s  ← Hero reveals
+
+  Custom Cursor: A magnetic custom cursor (Cursor.tsx) that scales up
+  when hovering elements with data-cursor="hover" attribute.
+
+  Page Loader: Full-screen branded loading overlay (PageLoader.tsx)
+  that blocks content until minimum load time passes.
+
+  Film Grain: GrainOverlay.tsx adds a subtle noise texture for depth.
+  Glow Layer: GlowLayer.tsx adds ambient radial glows behind sections.
+
+
+================================================================================
+10. 3D / CANVAS SYSTEM
+================================================================================
+
+  The hero background is a pure HTML Canvas 2D animation (NO Three.js):
+
+  Component   : src/components/3d/HeroScene.tsx
+  Stars       : 220 particles
+  Each star has:
+    - angle     : current orbital angle (radians)
+    - orbitR    : orbital radius (20px to 60% of screen)
+    - orbitCx/Y : slight offset from orb center for variation
+    - speed     : angular velocity (±0.0003 to ±0.0009 rad/frame)
+    - size      : particle radius (0.4px to 1.8px)
+    - alpha     : base opacity (0.2 to 0.7)
+    - twinkle   : phase offset for sine-based flicker
+
+  Orb Rendering:
+    - Large radial gradient from white-blue center to transparent edge
+    - Small bright core gradient for the inner glow
+    - Positioned at top-center (cx=W/2, cy=-H*0.04) — partially off-screen
+
+  Stars use elliptical orbits (vertically squished by 0.55 factor)
+  to simulate perspective depth. They orbit in both clockwise and
+  counter-clockwise directions randomly.
+
+  React Three Fiber (@react-three/fiber) and Drei are installed as
+  dependencies but HeroScene currently uses the native Canvas 2D API.
+  They are available for future 3D upgrades or other components.
+
+  Cobe library is installed for a potential interactive globe component.
+
+
+================================================================================
+11. FORMS & VALIDATION
+================================================================================
+
+  Section     : JoinUs (src/components/sections/JoinUs.tsx)
+  Libraries   : react-hook-form v7 + Zod v4 + @hookform/resolvers
+
+  Form Fields:
+    • name    — Full name (text, required)
+    • email   — Email address (validated as email format)
+    • branch  — Engineering department (likely a select/input)
+    • year    — Year of study (1–4 or dropdown)
+
+  Validation Flow:
+    1. Zod schema defines field rules
+    2. @hookform/resolvers connects Zod to react-hook-form
+    3. On valid submit → fetch POST /api/join
+    4. On success response → triggers success animation
+
+  UI Components used:
+    form.tsx (wrapper), input.tsx, label.tsx, button.tsx
+
+
+================================================================================
+12. ENVIRONMENT VARIABLES / CONFIG
+================================================================================
+
+  These must be set in a .env.local file:
+
+  NEXT_PUBLIC_SUPABASE_URL      ← Your Supabase project URL
+  SUPABASE_SERVICE_ROLE_KEY     ← Supabase service role secret key
+  RESEND_API_KEY                ← Resend.com API key
+
+  Notes:
+  • NEXT_PUBLIC_ prefix makes the Supabase URL available client-side.
+  • SUPABASE_SERVICE_ROLE_KEY and RESEND_API_KEY are server-only secrets.
+  • Placeholder fallback strings are used in code so the server doesn't
+    crash during local dev without .env.local (errors are logged, not thrown).
+  • Resend sender: onboarding@innovare-ieee.org
+    (must be a verified domain in your Resend account)
+
+
+================================================================================
+13. FONTS & ASSETS
+================================================================================
+
+  Fonts (local, variable):
+    GeistVF.woff      → --font-sans  (primary body + heading font)
+    GeistMonoVF.woff  → --font-mono  (code elements, accent text)
+    Location: src/app/fonts/
+    Loaded via: next/font/local in layout.tsx
+
+  Video:
+    ieee-bg.mp4       → Used in HeroSection as right-column autoplay video
+    Location: public/ieee-bg.mp4
+    Size: ~1.57 MB
+    Settings: autoPlay, loop, muted, playsInline
+    Style: mix-blend-mode: screen (blends into dark background beautifully)
+
+  Images:
+    Team member photos: Currently using pravatar.cc (placeholder avatars)
+    Should be replaced with: /images/profiles/<member>.jpg in /public/
+
+
+================================================================================
+14. DEV SCRIPTS & COMMANDS
+================================================================================
+
+  npm run dev    → Start development server (Next.js on http://localhost:3000)
+  npm run build  → Build production bundle
+  npm run start  → Start production server (after build)
+  npm run lint   → Run ESLint checks
+
+  Currently running: npm run dev (has been running for this session)
+
+
+================================================================================
+15. KEY ARCHITECTURE DECISIONS
+================================================================================
+
+  ① App Router (not Pages Router)
+     Uses Next.js 14 App Router for layouts, nested routing, and server
+     components. The /api/join endpoint is a Route Handler (not pages/api).
+
+  ② "use client" Directives
+     All animation components (HeroSection, HeroScene, Cursor, PageLoader,
+     SmoothScroll, Team) are client components due to browser APIs.
+     Static sections may be server components for performance.
+
+  ③ Dynamic Import with SSR:false
+     HeroScene is dynamically imported (no SSR) to prevent hydration issues
+     with browser-only Canvas API. This is the correct Next.js pattern.
+
+  ④ Fallback Strategy
+     Fallback3D.tsx ensures the hero section never looks broken on slow
+     connections or browsers with canvas issues.
+
+  ⑤ Graceful API Failures
+     The /api/join route handles Supabase and Resend errors separately.
+     If one fails, the other still runs. The frontend always gets a response.
+
+  ⑥ Tailwind CSS v4
+     Uses the new @import "tailwindcss" syntax (v4 style), NOT the old
+     @tailwind directives. Uses @plugin for tailwindcss-animate.
+     Custom theme is defined in globals.css using @theme inline {}.
+
+  ⑦ OKLCH Color Space
+     Most color tokens use oklch() for perceptually uniform color mixing.
+     Primary brand color (#5EA3C1) is kept as hex for clarity.
+
+  ⑧ Data Separation
+     Team member data lives in src/data/team-members.ts — fully separate
+     from presentation logic. Easy to edit without touching components.
+
+  ⑨ Constants File
+     Animation durations centralized in src/lib/constants.ts with strict
+     MAX_DURATION of 1.2s to keep the UI feeling fast and responsive.
+
+  ⑩ Single Page Architecture
+     Everything is on one page (page.tsx). Sections use fragment IDs (#join,
+     #projects) for anchor navigation rather than separate routes.
+
+================================================================================
+  END OF DOCUMENT
+================================================================================

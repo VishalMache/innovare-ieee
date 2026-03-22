@@ -54,6 +54,14 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --animate-scan-line: scan-line 4s linear infinite;
+  --animate-spin-slow: spin 8s linear infinite;
+
+  @keyframes scan-line {
+    0% { transform: translateY(-100%); opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { transform: translateY(400%); opacity: 0; }
+  }
 }
 
 :root {

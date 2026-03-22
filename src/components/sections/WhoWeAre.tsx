@@ -1,78 +1,82 @@
 "use client";
 import { motion } from "framer-motion";
-import { Zap, Code2, Globe } from "lucide-react";
-import { ANIMATION } from "@/lib/constants";
 
-const FEATURES = [
+const PILLARS = [
   {
-    icon: <Zap className="w-6 h-6 text-primary" />,
     title: "Fast Execution",
-    description: "We don't just plan. We build, ship, and iterate faster than anyone else."
+    description: "Bridging the gap between idea and deployment with relentless speed and precision."
   },
   {
-    icon: <Code2 className="w-6 h-6 text-accent" />,
     title: "Engineering Excellence",
-    description: "Clean code, scalable architecture, and pixel-perfect design."
+    description: "Built on clean architecture, scalable code, and industrial standards."
   },
   {
-    icon: <Globe className="w-6 h-6 text-blue-500" />,
     title: "Global Impact",
-    description: "Solving real problems and competing on international stages."
+    description: "Representing academic brilliance on international stages and real-world stages."
   }
 ];
 
 export function WhoWeAre() {
   return (
-    <section id="about" className="relative w-full py-32 px-6 overflow-hidden">
-      <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col lg:flex-row gap-20 items-center">
+    <section id="about" className="relative w-full py-40 px-6 overflow-hidden bg-background">
+      
+      {/* Immersive Background Atmosphere */}
+      <div className="absolute top-1/4 -right-1/4 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
+      
+      {/* Decorative Grid Pattern */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+           style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
+
+      <div className="container mx-auto max-w-7xl relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
           
-          <div className="flex-1 space-y-8">
-            <motion.h2 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: ANIMATION.NORMAL, ease: "easeOut" }}
-              className="text-4xl md:text-5xl font-bold tracking-tighter"
+          {/* Left Side: Bold Mission Paragraphs */}
+          <div className="flex-1 space-y-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="space-y-8"
             >
-              Building the next generation of <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-accent">tech leaders.</span>
-            </motion.h2>
-            
-            <motion.p 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: ANIMATION.NORMAL, delay: 0.2 }}
-              className="text-lg text-muted-foreground"
-            >
-              INNOVARE IEEE is not just a club. It's an accelerator. 
-              We take raw talent and turn it into working technology. 
-              Join a community of elite developers, designers, and innovators.
-            </motion.p>
+              <p className="text-2xl md:text-3xl text-white font-bold leading-tight tracking-tight">
+                INNOVARE IEEE is a high-performance environment where we cultivate the elite skills 
+                required to lead in the global technology landscape. 
+              </p>
+              
+              <p className="text-xl md:text-2xl text-white font-bold leading-relaxed opacity-90">
+                Our members don&apos;t just learn—they build, deploy, and scale solutions that solve 
+                real challenges, moving beyond the boundaries of traditional education through 
+                relentless shipping and deep-tech focus.
+              </p>
+            </motion.div>
           </div>
 
-          <div className="flex-1 grid gap-6 w-full">
-            {FEATURES.map((feat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: ANIMATION.NORMAL, delay: 0.3 + i * 0.1 }}
-                className="group relative p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-linear-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative z-10 flex gap-4 items-start">
-                  <div className="p-3 rounded-lg bg-black/50 border border-white/5 shadow-inner">
-                    {feat.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2 text-foreground">{feat.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{feat.description}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+          {/* Right Side: Simple Bullet Points */}
+          <div className="flex-1 space-y-12">
+            <div className="space-y-10 border-l border-white/5 pl-8 lg:pl-12">
+              {PILLARS.map((pillar, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="relative space-y-2 group"
+                >
+                  {/* Custom Tech Bullet */}
+                  <div className="absolute -left-[41px] lg:-left-[57px] top-3 w-4 h-4 rounded-full bg-primary/20 border border-primary/40 group-hover:bg-primary group-hover:shadow-[0_0_15px_rgba(94,163,193,0.8)] transition-all duration-300" />
+                  
+                  <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors duration-300">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {pillar.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
         </div>

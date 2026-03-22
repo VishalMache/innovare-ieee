@@ -95,6 +95,10 @@ export function HeroSection() {
           animate={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: ANIMATION.HERO, delay: 0.5 }}
           className="relative w-full aspect-square md:aspect-video lg:aspect-square flex items-center justify-center pointer-events-none"
+          style={{
+            maskImage: "radial-gradient(circle, black 40%, transparent 80%)",
+            WebkitMaskImage: "radial-gradient(circle, black 40%, transparent 80%)",
+          }}
         >
           <video
             autoPlay

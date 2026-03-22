@@ -14,8 +14,8 @@ export default function Home() {
     <>
       <HeroSection />
       <LogosStrip />
-      <StatsCounter />
       <WhoWeAre />
+      <StatsCounter />
       <ProjectShowcase />
       <Timeline />
       <WallOfFame />
