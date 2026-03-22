@@ -5,10 +5,11 @@ import dynamic from "next/dynamic";
 import { Suspense, useState, useEffect } from "react";
 import { Fallback3D } from "@/components/animations/Fallback3D";
 
-// Lazy load heavy 3D R3F to prevent blocking thread
-const Scene3D = dynamic(() => import("@/components/3d/HeroScene").then(mod => mod.HeroScene), { 
-  ssr: false,
-});
+// Lazy load canvas scene
+const Scene3D = dynamic(
+  () => import("@/components/3d/HeroScene").then((mod) => mod.HeroScene),
+  { ssr: false }
+);
 
 export function HeroSection() {
   const [mounted, setMounted] = useState(false);
@@ -19,7 +20,7 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-32 pb-40">
-      {/* 3D Background with Suspense & Fallback */}
+      {/* Space background canvas */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {mounted && (
           <Suspense fallback={<Fallback3D type="hero" />}>
@@ -30,16 +31,30 @@ export function HeroSection() {
       </div>
 
       <div className="container relative z-10 mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center mt-12">
-        
-        {/* Left Column: Text Content */}
+
+        {/* ── Left Column: Text ── */}
         <div className="flex flex-col items-start text-left w-full">
+          {/* Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mb-6 flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-primary text-xs font-semibold tracking-widest uppercase"
+          >
+            <span>✦</span>
+            IEEE Student Branch
+          </motion.div>
+
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: ANIMATION.HERO, ease: "easeOut", delay: 0.4 }}
             className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter text-balance mb-6 max-w-2xl leading-tight"
           >
-            Where ideas become <span className="text-transparent bg-clip-text bg-linear-to-r from-primary to-accent">engineered reality.</span>
+            Where ideas become{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent-foreground">
+              engineered reality.
+            </span>
           </motion.h1>
 
           <motion.p
@@ -60,10 +75,9 @@ export function HeroSection() {
             <a
               href="#join"
               data-cursor="hover"
-              className="group relative px-8 py-4 text-sm font-bold text-black bg-foreground rounded-full overflow-hidden transition-transform hover:scale-105 active:scale-95"
+              className="px-8 py-4 text-sm font-bold text-white rounded-full transition-transform hover:scale-105 active:scale-95 bg-primary hover:bg-primary/90 shadow-[0_0_28px_rgba(94,163,193,0.45)]"
             >
-              <span className="relative z-10 transition-colors group-hover:text-white">{CONTENT.COPY.ctaJoin}</span>
-              <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+              {CONTENT.COPY.ctaJoin}
             </a>
             <a
               href="#projects"
@@ -75,7 +89,7 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Right Column: Hero Graphic / Video */}
+        {/* ── Right Column: Video ── */}
         <motion.div
           initial={{ opacity: 0, filter: "blur(20px)" }}
           animate={{ opacity: 1, filter: "blur(0px)" }}
@@ -95,7 +109,7 @@ export function HeroSection() {
 
       </div>
 
-      {/* Gradient Overlay for bottom blending */}
+      {/* Bottom gradient blend */}
       <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none" />
     </section>
   );

@@ -1,57 +1,109 @@
 "use client";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { useState } from "react";
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { ANIMATION } from "@/lib/constants";
+
+const NAV_LINKS = [
+  { name: "About", href: "#about" },
+  { name: "Projects", href: "#projects" },
+  { name: "Team", href: "#team" },
+];
 
 export function Navbar() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
     if (latest > previous && latest > 150) {
-      setHidden(true); // Hide on scroll down
+      setHidden(true);
     } else {
-      setHidden(false); // Show on scroll up
+      setHidden(false);
     }
     setIsScrolled(latest > 50);
   });
 
   return (
-    <motion.header
-      variants={{
-        visible: { y: 0 },
-        hidden: { y: "-100%" },
-      }}
-      initial="visible"
-      animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: ANIMATION.FAST, ease: "easeInOut" }}
-      className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
-        isScrolled ? "bg-background/80 backdrop-blur-md border-b border-white/5" : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-6 h-20 flex items-center justify-between">
-        <Link href="/" className="text-xl font-bold tracking-tighter" data-cursor="hover">
-          INNOVARE<span className="text-primary">.</span>
+    <div className="fixed inset-x-0 top-0 z-50 flex justify-center pt-6 px-6 pointer-events-none">
+      <motion.header
+        variants={{
+          visible: { y: 0, opacity: 1 },
+          hidden: { y: -100, opacity: 0 },
+        }}
+        initial="visible"
+        animate={hidden ? "hidden" : "visible"}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className={`pointer-events-auto relative flex items-center justify-between gap-8 px-6 py-3 rounded-full border border-white/10 transition-all duration-500 overflow-hidden ${
+          isScrolled 
+            ? "bg-black/40 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]" 
+            : "bg-white/5 backdrop-blur-md"
+        }`}
+        style={{ width: "min(100%, 1000px)" }}
+      >
+        {/* Animated Glow Border */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/20 via-transparent to-primary/20 opacity-30 pointer-events-none" />
+        
+        <Link 
+          href="/" 
+          className="relative text-xl font-bold tracking-tighter flex items-center gap-1 group overflow-hidden" 
+          data-cursor="hover"
+        >
+          <motion.span 
+            className="text-white group-hover:text-primary transition-colors duration-300"
+          >
+            INNOVARE
+          </motion.span>
+          <span className="text-primary group-hover:scale-150 transition-transform duration-500">.</span>
         </Link>
         
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-          <Link href="#about" className="hover:text-foreground transition-colors" data-cursor="hover">About</Link>
-          <Link href="#projects" className="hover:text-foreground transition-colors" data-cursor="hover">Projects</Link>
-          <Link href="#team" className="hover:text-foreground transition-colors" data-cursor="hover">Team</Link>
+        <nav className="hidden md:flex items-center relative gap-1">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              onMouseEnter={() => setHoveredLink(link.name)}
+              onMouseLeave={() => setHoveredLink(null)}
+              className="relative px-5 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors duration-300 rounded-full"
+              data-cursor="hover"
+            >
+              {hoveredLink === link.name && (
+                <motion.div
+                  layoutId="nav-hover"
+                  className="absolute inset-0 bg-white/10 rounded-full -z-10"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
+                />
+              )}
+              <span className="relative z-10">{link.name}</span>
+            </Link>
+          ))}
         </nav>
 
         <Link
           href="#join"
           data-cursor="hover"
-          className="relative px-5 py-2 text-sm font-medium text-primary-foreground overflow-hidden rounded-full group bg-primary/20 border border-primary/50 hover:bg-primary/30 transition-all"
+          className="relative group px-6 py-2.5 text-sm font-bold text-white rounded-full overflow-hidden transition-all duration-300 active:scale-95"
         >
-          <span className="relative z-10 w-full text-center">Join Us</span>
-          <span className="absolute inset-0 block h-full w-full rounded-full bg-primary opacity-0 group-hover:opacity-20 transition-opacity duration-300 ease-out" />
+          {/* Button Background & Glow */}
+          <div className="absolute inset-0 bg-primary/20 border border-primary/40 group-hover:bg-primary/30 group-hover:border-primary/60 transition-all duration-300 rounded-full" />
+          <div className="absolute inset-0 bg-primary opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-300 rounded-full" />
+          
+          <span className="relative z-10 flex items-center gap-2">
+            Join Us
+            <motion.span
+              animate={{ x: [0, 4, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            >
+              →
+            </motion.span>
+          </span>
         </Link>
-      </div>
-    </motion.header>
+      </motion.header>
+    </div>
   );
 }

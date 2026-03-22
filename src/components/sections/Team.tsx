@@ -6,6 +6,30 @@ import React, { useState } from "react";
 // Import the user-editable data source for all team profiles
 import { TEAM_MEMBERS as MEMBERS } from "../../data/team-members";
 
+function MemberShimmer() {
+  return (
+    <div className="w-full h-80 rounded-[2rem] border border-white/5 bg-[#0a0a0a] relative overflow-hidden group">
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite] z-10" />
+      
+      {/* Image Area Placeholder */}
+      <div className="h-[60%] w-full bg-white/5" />
+      
+      {/* Content Area */}
+      <div className="p-6 flex flex-col items-center -mt-6 relative z-20 h-[40%]">
+        <div className="w-12 h-12 rounded-full bg-white/10 mb-4 border border-white/5 shadow-xl" />
+        <div className="w-32 h-6 rounded-full bg-white/10 mb-3" />
+        <div className="w-20 h-3 rounded-full bg-primary/20 mb-4" />
+        
+        {/* Bio lines */}
+        <div className="w-full space-y-2">
+          <div className="w-full h-2 rounded-full bg-white/5" />
+          <div className="w-[80%] h-2 rounded-full bg-white/5 mx-auto" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Team() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -217,6 +241,40 @@ export function Team() {
              </button>
           </div>
 
+        </div>
+
+        {/* Scalable Network Expansion: Shimmer Nodes */}
+        <div className="w-full mt-32">
+          <div className="flex flex-col items-center mb-12">
+            <div className="h-px w-24 bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-6" />
+            <p className="text-white/40 text-sm font-medium tracking-[0.2em] uppercase">
+              Syndicate Expansion Nodes
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 opacity-30">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+              >
+                <MemberShimmer />
+              </motion.div>
+            ))}
+          </div>
+          
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="mt-16 flex justify-center"
+          >
+            <button className="px-8 py-3 rounded-full border border-white/10 text-white/50 text-xs font-bold uppercase tracking-widest hover:bg-white/5 hover:text-white transition-all">
+              Initialize Full Directory Retrieval
+            </button>
+          </motion.div>
         </div>
 
       </div>
