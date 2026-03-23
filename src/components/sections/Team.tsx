@@ -6,41 +6,16 @@ import React, { useState } from "react";
 // Import the user-editable data source for all team profiles
 import { TEAM_MEMBERS as MEMBERS } from "../../data/team-members";
 
-function MemberShimmer() {
-  return (
-    <div className="w-full h-80 rounded-[2rem] border border-white/5 bg-[#0a0a0a] relative overflow-hidden group">
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite] z-10" />
-      
-      {/* Image Area Placeholder */}
-      <div className="h-[60%] w-full bg-white/5" />
-      
-      {/* Content Area */}
-      <div className="p-6 flex flex-col items-center -mt-6 relative z-20 h-[40%]">
-        <div className="w-12 h-12 rounded-full bg-white/10 mb-4 border border-white/5 shadow-xl" />
-        <div className="w-32 h-6 rounded-full bg-white/10 mb-3" />
-        <div className="w-20 h-3 rounded-full bg-primary/20 mb-4" />
-        
-        {/* Bio lines */}
-        <div className="w-full space-y-2">
-          <div className="w-full h-2 rounded-full bg-white/5" />
-          <div className="w-[80%] h-2 rounded-full bg-white/5 mx-auto" />
-        </div>
-      </div>
-    </div>
-  );
-}
+
 
 export function Team() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(12);
 
-  const handleNext = () => setCurrentIndex((prev) => (prev + 1) % MEMBERS.length);
-  const handlePrev = () => setCurrentIndex((prev) => (prev - 1 + MEMBERS.length) % MEMBERS.length);
+  const handleNext = () => setCurrentIndex((prev) => Math.min(prev + 1, MEMBERS.length - 1));
+  const handlePrev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0));
 
   const getDiff = (index: number) => {
-    let diff = index - currentIndex;
-    if (diff > MEMBERS.length / 2) diff -= MEMBERS.length;
-    if (diff <= -MEMBERS.length / 2) diff += MEMBERS.length;
-    return diff;
+    return index - currentIndex;
   };
 
   const getTransform = (diff: number) => {
@@ -77,12 +52,12 @@ export function Team() {
       {/* Structural Network Lattice */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none mix-blend-overlay">
          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-           <defs>
-             <pattern id="team-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-               <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" strokeWidth="1" />
-             </pattern>
-           </defs>
-           <rect width="100%" height="100%" fill="url(#team-grid)" />
+            <defs>
+              <pattern id="team-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" strokeWidth="1" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#team-grid)" />
          </svg>
       </div>
 
@@ -124,20 +99,6 @@ export function Team() {
           {/* SVG Hardware Orbital Thread Connection */}
           <div className="absolute top-[500px] left-1/2 -translate-x-1/2 w-[220vw] max-w-[2200px] h-[300px] pointer-events-none z-0 opacity-60">
              <svg viewBox="0 0 1000 300" className="w-full h-full" preserveAspectRatio="none">
-               <path 
-                 d="M 0 300 Q 500 -80 1000 300" 
-                 fill="none" 
-                 stroke="url(#thread-glow)" 
-                 strokeWidth="2"
-                 strokeDasharray="4 8"
-               />
-               <path 
-                 d="M 0 300 Q 500 -80 1000 300" 
-                 fill="none" 
-                 stroke="url(#thread-glow)" 
-                 strokeWidth="10"
-                 className="blur-xl opacity-50"
-               />
                <defs>
                  <linearGradient id="thread-glow" x1="0%" y1="0%" x2="100%" y2="0%">
                    <stop offset="0%" stopColor="transparent" />
@@ -147,6 +108,45 @@ export function Team() {
                    <stop offset="100%" stopColor="transparent" />
                  </linearGradient>
                </defs>
+               
+               {/* Background Thread (Dashed) */}
+               <path 
+                 d="M 0 300 Q 500 -80 1000 300" 
+                 fill="none" 
+                 stroke="url(#thread-glow)" 
+                 strokeWidth="2"
+                 strokeDasharray="4 8"
+                 className="opacity-20"
+               />
+               
+               {/* Active Progress Thread (Solid Glow - Center Out) */}
+               <motion.path 
+                 d="M 0 300 Q 500 -80 1000 300" 
+                 fill="none" 
+                 stroke="url(#thread-glow)" 
+                 strokeWidth="3"
+                 initial={{ pathLength: 0, pathOffset: 12 / (MEMBERS.length - 1) }}
+                 animate={{ 
+                   pathLength: Math.abs(currentIndex / (MEMBERS.length - 1) - 12 / (MEMBERS.length - 1)),
+                   pathOffset: Math.min(currentIndex / (MEMBERS.length - 1), 12 / (MEMBERS.length - 1))
+                 }}
+                 transition={{ type: "spring", stiffness: 50, damping: 20 }}
+               />
+               
+               {/* Progress Bead/Glow (Center Out) */}
+               <motion.path 
+                 d="M 0 300 Q 500 -80 1000 300" 
+                 fill="none" 
+                 stroke="url(#thread-glow)" 
+                 strokeWidth="12"
+                 className="blur-xl opacity-30"
+                 initial={{ pathLength: 0, pathOffset: 12 / (MEMBERS.length - 1) }}
+                 animate={{ 
+                   pathLength: Math.abs(currentIndex / (MEMBERS.length - 1) - 12 / (MEMBERS.length - 1)),
+                   pathOffset: Math.min(currentIndex / (MEMBERS.length - 1), 12 / (MEMBERS.length - 1))
+                 }}
+                 transition={{ type: "spring", stiffness: 50, damping: 20 }}
+               />
              </svg>
           </div>
 
@@ -154,8 +154,9 @@ export function Team() {
             {MEMBERS.map((member, i) => {
               const diff = getDiff(i);
               
-              // Only render DOM elements for cards technically in scope to preserve huge performance across 25 arrays
+              // Only render DOM elements for cards technically in scope to preserve huge performance across dense arrays
               if (Math.abs(diff) >= 3) return null;
+
               
               const isCenter = diff === 0;
 
@@ -175,47 +176,47 @@ export function Team() {
                     <div className="absolute bottom-[0px] left-1/2 -translate-x-1/2 w-12 h-12 bg-primary/20 rounded-full blur-xl animate-pulse" />
                   )}
 
-                  {/* High Quality Profile Background */}
-                  <div className="absolute inset-x-0 top-0 h-[65%] w-full">
+                   {/* High Quality Profile Background */}
+                  <div className="absolute inset-x-0 top-0 h-full w-full">
                      <div 
-                       className={`absolute inset-0 bg-cover bg-center transition-all duration-700 ${isCenter ? 'scale-100 opacity-100' : 'scale-110 opacity-70'}`} 
+                       className={`absolute inset-0 bg-cover bg-center transition-all duration-700 ${isCenter ? 'scale-100 opacity-100' : 'scale-110 opacity-85'}`} 
                        style={{ backgroundImage: `url(${member.img})` }} 
                      />
-                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
+                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
                   </div>
                   
                   {/* Heavy Architectural Content Core */}
-                  <div className="absolute inset-x-0 bottom-0 h-[50%] p-8 pt-0 flex flex-col items-center text-center bg-gradient-to-t from-background to-[#0a0a0a]/90">
-                     <div className={`w-14 h-14 bg-background border rounded-full flex justify-center items-center mb-4 shadow-xl z-20 -mt-6 ${isCenter ? 'border-primary shadow-primary/30 text-primary' : 'border-white/10 text-white/50'}`}>
-                        <span className="text-lg font-black tracking-tighter">{member.initials}</span>
+                  <div className="absolute inset-x-0 bottom-0 h-[45%] p-8 pt-0 flex flex-col items-center text-center bg-gradient-to-t from-background via-background/90 to-transparent">
+                     <h3 className="text-3xl font-black text-white mb-2 drop-shadow-md tracking-tighter mt-12">{member.name}</h3>
+                     <p className="text-[11px] font-bold tracking-widest uppercase text-primary mb-6 drop-shadow-md">{member.role}</p>
+                     
+                     {/* Functional Dynamic Social Links - Now replacing Bio */}
+                     <div className="flex gap-4 z-30">
+                        <a 
+                          href={member.githubUrl || "https://github.com"} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className={`p-3 rounded-full transition-all cursor-pointer border ${
+                            isCenter 
+                            ? 'bg-primary/20 text-white border-primary/50 hover:bg-primary shadow-[0_0_15px_rgba(94,163,193,0.3)]' 
+                            : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
+                          }`}
+                        >
+                          <Github className="w-5 h-5" />
+                        </a>
+                        <a 
+                          href={member.linkedinUrl || "https://linkedin.com"} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className={`p-3 rounded-full transition-all cursor-pointer border ${
+                            isCenter 
+                            ? 'bg-primary/20 text-white border-primary/50 hover:bg-primary shadow-[0_0_15px_rgba(94,163,193,0.3)]' 
+                            : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
+                          }`}
+                        >
+                          <Linkedin className="w-5 h-5" />
+                        </a>
                      </div>
-                     <h3 className="text-3xl font-black text-white mb-2 drop-shadow-md tracking-tighter">{member.name}</h3>
-                     <p className="text-[11px] font-bold tracking-widest uppercase text-primary mb-3 drop-shadow-md">{member.role}</p>
-                     
-                     <p className="text-white/60 text-[13px] leading-relaxed max-w-[90%] mb-6 limit-lines-2 line-clamp-2">
-                       {member.bio}
-                     </p>
-                     
-                     {/* Functional Dynamic Social Links */}
-                     {isCenter && (
-                       <div className="mt-auto flex gap-4">
-                          {member.githubUrl && (
-                             <a href={member.githubUrl} target="_blank" rel="noopener noreferrer" className="p-3 rounded-full bg-white/5 hover:bg-primary hover:text-white border border-white/10 hover:border-primary text-white/70 transition-all cursor-pointer">
-                                <Github className="w-4 h-4" />
-                             </a>
-                          )}
-                          {member.linkedinUrl && (
-                             <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" className="p-3 rounded-full bg-white/5 hover:bg-primary hover:text-white border border-white/10 hover:border-primary text-white/70 transition-all cursor-pointer">
-                                <Linkedin className="w-4 h-4" />
-                             </a>
-                          )}
-                          {member.twitterUrl && (
-                             <a href={member.twitterUrl} target="_blank" rel="noopener noreferrer" className="p-3 rounded-full bg-white/5 hover:bg-primary hover:text-white border border-white/10 hover:border-primary text-white/70 transition-all cursor-pointer">
-                                <Twitter className="w-4 h-4" />
-                             </a>
-                          )}
-                       </div>
-                     )}
                   </div>
                 </motion.div>
               );
@@ -243,39 +244,7 @@ export function Team() {
 
         </div>
 
-        {/* Scalable Network Expansion: Shimmer Nodes */}
-        <div className="w-full mt-32">
-          <div className="flex flex-col items-center mb-12">
-            <div className="h-px w-24 bg-gradient-to-r from-transparent via-primary/50 to-transparent mb-6" />
-            <p className="text-white/40 text-sm font-medium tracking-[0.2em] uppercase">
-              Syndicate Expansion Nodes
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 opacity-30">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <MemberShimmer />
-              </motion.div>
-            ))}
-          </div>
-          
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            className="mt-16 flex justify-center"
-          >
-            <button className="px-8 py-3 rounded-full border border-white/10 text-white/50 text-xs font-bold uppercase tracking-widest hover:bg-white/5 hover:text-white transition-all">
-              Initialize Full Directory Retrieval
-            </button>
-          </motion.div>
-        </div>
+
 
       </div>
     </section>
