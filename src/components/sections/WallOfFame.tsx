@@ -1,7 +1,7 @@
 "use client";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Medal, Award, Star, Shield } from "lucide-react";
+import { Medal, Star, Shield } from "lucide-react";
 
 /* ── Digital Certificate Type ── */
 type CertificateProps = {

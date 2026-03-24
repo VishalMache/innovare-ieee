@@ -113,11 +113,11 @@ const FormControl = React.forwardRef<
     ref: (node: HTMLElement) => {
       // Forward to both refs if possible
       if (typeof ref === "function") ref(node)
-      else if (ref) (ref as React.MutableRefObject<any>).current = node
+      else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node
       
-      const childRef = (child as any).ref
+      const childRef = (child as React.ReactElement & { ref?: React.Ref<HTMLElement> }).ref
       if (typeof childRef === "function") childRef(node)
-      else if (childRef) childRef.current = node
+      else if (childRef && "current" in childRef) (childRef as React.MutableRefObject<HTMLElement | null>).current = node
     },
     id: formItemId,
     "aria-describedby":

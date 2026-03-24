@@ -1,6 +1,6 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Twitter, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { Github, Linkedin, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import React, { useState } from "react";
 import Link from "next/link";
 

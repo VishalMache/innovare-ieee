@@ -2,7 +2,13 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
-const EVENTS = [
+interface TimelineEvent {
+  year: string;
+  date: string;
+  title: string;
+}
+
+const EVENTS: TimelineEvent[] = [
   { 
     year: "2025", 
     date: "12th Jan 2025",
@@ -115,7 +121,7 @@ export function Timeline() {
                     <div className="relative z-10">
                       <span className="text-sm font-bold tracking-widest text-primary mb-2 flex items-center gap-3">
                          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(94,163,193,0.8)]" />
-                         {(event as any).date || event.year}
+                         {event.date || event.year}
                       </span>
                       <h3 className="text-2xl lg:text-3xl font-black tracking-tighter text-white group-hover:text-primary transition-colors duration-500 leading-tight">
                         {event.title}

@@ -50,7 +50,7 @@ export async function POST(req: Request) {
 
     // Return success to trigger frontend interaction animation
     return NextResponse.json({ success: true, data: dbData }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

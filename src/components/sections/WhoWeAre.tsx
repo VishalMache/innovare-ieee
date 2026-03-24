@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const PILLARS = [
   {
@@ -17,12 +18,25 @@ const PILLARS = [
 ];
 
 function RisingParticles() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({
+        x: (e.clientX / window.innerWidth - 0.5) * 40,
+        y: (e.clientY / window.innerHeight - 0.5) * 40,
+      });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {[...Array(25)].map((_, i) => (
+      {[...Array(40)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute rounded-full bg-primary/20"
+          className="absolute rounded-full bg-primary/40"
           initial={{
             x: `${Math.random() * 100}%`,
             y: "110%",
@@ -31,17 +45,29 @@ function RisingParticles() {
           }}
           animate={{
             y: "-10%",
-            opacity: [0, 0.4, 0],
+            opacity: [0, 0.6, 0],
+            translateX: mousePos.x * (Math.random() * 0.5 + 0.5),
+            translateY: mousePos.y * (Math.random() * 0.5 + 0.5),
           }}
           transition={{
-            duration: Math.random() * 10 + 15,
-            repeat: Infinity,
-            ease: "linear",
-            delay: Math.random() * 20,
+            y: {
+              duration: Math.random() * 8 + 10,
+              repeat: Infinity,
+              ease: "linear",
+              delay: Math.random() * 20,
+            },
+            opacity: {
+              duration: Math.random() * 8 + 10,
+              repeat: Infinity,
+              ease: "linear",
+              delay: Math.random() * 20,
+            },
+            translateX: { type: "spring", stiffness: 50, damping: 20 },
+            translateY: { type: "spring", stiffness: 50, damping: 20 },
           }}
           style={{
-            width: `${Math.random() * 4 + 2}px`,
-            height: `${Math.random() * 4 + 2}px`,
+            width: `${Math.random() * 5 + 2}px`,
+            height: `${Math.random() * 5 + 2}px`,
             filter: "blur(1px)",
           }}
         />

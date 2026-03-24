@@ -10,7 +10,7 @@ type AccordionProps = AccordionPrimitive.Root.Props & {
   collapsible?: boolean
 }
 
-function Accordion({ className, type, collapsible, multiple, ...props }: AccordionProps) {
+function Accordion({ className, type, multiple, ...props }: AccordionProps) {
   return (
     <AccordionPrimitive.Root
       data-slot="accordion"

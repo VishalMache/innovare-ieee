@@ -1,7 +1,7 @@
 "use client";
 import { useInView, motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { Users, Cpu, Trophy, Code2 } from "lucide-react";
+import { Users, Cpu, Trophy } from "lucide-react";
 
 /* ── Animated Number Counter ────────────────────────────────────────────── */
 function Counter({

@@ -1,8 +1,7 @@
 "use client";
-import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { useState, useRef } from "react";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { useState } from "react";
 import Link from "next/link";
-import { ANIMATION } from "@/lib/constants";
 
 const NAV_LINKS = [
   { name: "About", href: "#about" },

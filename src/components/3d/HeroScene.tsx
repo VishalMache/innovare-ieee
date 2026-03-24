@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef, useMemo, Suspense } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { useTexture, Stars, Float, Environment } from "@react-three/drei";
+import { Stars } from "@react-three/drei";
 
 function ParticleWave() {
   const pointsRef = useRef<THREE.Points>(null!);
