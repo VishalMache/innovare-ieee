@@ -49,10 +49,10 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: ANIMATION.HERO, ease: "easeOut", delay: 0.4 }}
-            className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tighter text-balance mb-6 max-w-2xl leading-tight"
+            className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold tracking-tighter text-balance mb-6 max-w-2xl leading-tight"
           >
             Where ideas become{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent-foreground">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent-foreground font-heading font-bold">
               engineered reality.
             </span>
           </motion.h1>
@@ -61,7 +61,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: ANIMATION.HERO, ease: "easeOut", delay: 0.6 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-xl text-balance mb-12"
+            className="text-base md:text-xl text-muted-foreground max-w-xl text-balance mb-12"
           >
             {CONTENT.COPY.heroSubHeadline}
           </motion.p>
@@ -70,19 +70,19 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: ANIMATION.HERO, ease: "easeOut", delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center gap-4"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto"
           >
             <a
               href="#join"
               data-cursor="hover"
-              className="px-8 py-4 text-sm font-bold text-white rounded-full transition-transform hover:scale-105 active:scale-95 bg-primary hover:bg-primary/90 shadow-[0_0_28px_rgba(94,163,193,0.45)]"
+              className="px-8 py-4 text-sm font-bold text-center text-white rounded-full transition-transform hover:scale-105 active:scale-95 bg-primary hover:bg-primary/90 shadow-[0_0_28px_rgba(94,163,193,0.45)]"
             >
               {CONTENT.COPY.ctaJoin}
             </a>
             <a
               href="#projects"
               data-cursor="hover"
-              className="px-8 py-4 text-sm font-bold text-foreground bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-colors"
+              className="px-8 py-4 text-sm font-bold text-center text-foreground bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-colors"
             >
               {CONTENT.COPY.ctaExplore}
             </a>
@@ -94,10 +94,10 @@ export function HeroSection() {
           initial={{ opacity: 0, filter: "blur(20px)" }}
           animate={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: ANIMATION.HERO, delay: 0.5 }}
-          className="relative w-full aspect-square md:aspect-video lg:aspect-square flex items-center justify-center pointer-events-none"
+          className="relative w-full aspect-square md:aspect-video lg:aspect-square flex items-center justify-center pointer-events-none lg:scale-110 rounded-[2rem] overflow-hidden border border-white/5"
           style={{
-            maskImage: "radial-gradient(circle, black 40%, transparent 80%)",
-            WebkitMaskImage: "radial-gradient(circle, black 40%, transparent 80%)",
+            maskImage: "radial-gradient(circle at center, black 60%, transparent 100%)",
+            WebkitMaskImage: "radial-gradient(circle at center, black 60%, transparent 100%)",
           }}
         >
           <video
@@ -105,7 +105,7 @@ export function HeroSection() {
             loop
             muted
             playsInline
-            className="w-full h-full object-contain opacity-90 select-none pb-12 lg:pb-0 mix-blend-screen"
+            className="w-full h-full object-contain rounded-[2rem] opacity-90 select-none pb-12 lg:pb-0 mix-blend-screen"
           >
             <source src="/ieee-bg.mp4" type="video/mp4" />
           </video>

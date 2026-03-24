@@ -50,7 +50,7 @@ function Counter({
 /* ── Stats Data ─────────────────────────────────────────────────────────── */
 const STATS = [
   {
-    value: 500,
+    value: 20,
     suffix: "+",
     label: "Active Members",
     sub: "Across all verticals",
@@ -59,7 +59,7 @@ const STATS = [
     glow: "rgba(56,189,248,0.18)",
   },
   {
-    value: 50,
+    value: 5,
     suffix: "+",
     label: "Projects Built",
     sub: "Shipped to production",
@@ -68,22 +68,13 @@ const STATS = [
     glow: "rgba(167,139,250,0.18)",
   },
   {
-    value: 20,
-    suffix: "+",
+    value: 4,
+    suffix: "",
     label: "Hackathons Won",
     sub: "National & global",
     icon: Trophy,
     color: "from-amber-400 to-orange-500",
     glow: "rgba(251,191,36,0.18)",
-  },
-  {
-    value: 10,
-    suffix: "k+",
-    label: "Lines Shipped",
-    sub: "And counting fast",
-    icon: Code2,
-    color: "from-emerald-400 to-teal-500",
-    glow: "rgba(52,211,153,0.18)",
   },
 ];
 
@@ -126,14 +117,14 @@ export function StatsCounter() {
         </motion.div>
 
         {/* ── Stats Row ── */}
-        <div className="relative grid grid-cols-2 lg:grid-cols-4">
+        <div className="relative grid grid-cols-1 md:grid-cols-3">
 
           {/* Vertical dividers (desktop only) */}
-          {[1, 2, 3].map((i) => (
+          {[1, 2].map((i) => (
             <div
               key={i}
-              className="hidden lg:block absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent"
-              style={{ left: `${i * 25}%` }}
+              className="hidden md:block absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent"
+              style={{ left: `${i * 33.333333}%` }}
             />
           ))}
 

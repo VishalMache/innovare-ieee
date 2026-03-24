@@ -3,9 +3,36 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const EVENTS = [
-  { year: "2024", title: "National Hackathon Winners", desc: "First place out of 500+ teams from across the nation." },
-  { year: "2023", title: "Tech Symposium Setup", desc: "Hosted 2000+ attendees with industry leaders." },
-  { year: "2022", title: "Inception", desc: "Started with 5 passionate engineers and a shared vision." },
+  { 
+    year: "2025", 
+    date: "12th Jan 2025",
+    title: "Inauguration of PCU IEEE Student Branch", 
+  },
+  { 
+    year: "2025", 
+    date: "25th Jan 2025",
+    title: "Online Workshop – “How to Write a Research Paper”", 
+  },
+  { 
+    year: "2025", 
+    date: "27th Feb 2025",
+    title: "Guest Lecture – “AI in Business and Finance”", 
+  },
+  { 
+    year: "2025", 
+    date: "6th–8th March 2025",
+    title: "Day Workshop – “Zscaler Cloud Security”", 
+  },
+  { 
+    year: "2025", 
+    date: "17th–28th Mar 2025",
+    title: "Two-Week Training Program – “Software Testing”", 
+  },
+  { 
+    year: "2025", 
+    date: "12th April 2025",
+    title: "Online Webinar – “Research Paper Essentials”", 
+  },
 ];
 
 export function Timeline() {
@@ -59,7 +86,7 @@ export function Timeline() {
                   transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
                   className="w-full pl-24 md:pl-0 md:w-[45%] will-change-transform transform-gpu"
                 >
-                  <div className="relative w-full p-8 lg:p-12 rounded-[2.5rem] bg-black/40 border border-white/10 backdrop-blur-md group-hover:border-primary/50 transition-all duration-700 hover:shadow-[0_0_40px_rgba(94,163,193,0.2)] hover:-translate-y-2 overflow-hidden transform-gpu flex flex-col justify-center">
+                  <div className="relative w-full p-6 lg:p-8 rounded-[2rem] bg-black/40 border border-white/10 backdrop-blur-md group-hover:border-primary/50 transition-all duration-700 hover:shadow-[0_0_40px_rgba(94,163,193,0.2)] hover:-translate-y-2 overflow-hidden transform-gpu flex flex-col justify-center">
                     
                     {/* Architectural Tech Grid */}
                     <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay">
@@ -86,16 +113,13 @@ export function Timeline() {
 
                     {/* Content */}
                     <div className="relative z-10">
-                      <span className="text-sm font-bold tracking-widest text-primary mb-4 flex items-center gap-3">
+                      <span className="text-sm font-bold tracking-widest text-primary mb-2 flex items-center gap-3">
                          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(94,163,193,0.8)]" />
-                         {event.year}
+                         {(event as any).date || event.year}
                       </span>
-                      <h3 className="text-3xl lg:text-4xl font-black tracking-tighter mb-4 text-white group-hover:text-primary transition-colors duration-500 leading-tight">
+                      <h3 className="text-2xl lg:text-3xl font-black tracking-tighter text-white group-hover:text-primary transition-colors duration-500 leading-tight">
                         {event.title}
                       </h3>
-                      <p className="text-lg text-white/70 leading-relaxed font-medium max-w-sm">
-                        {event.desc}
-                      </p>
                     </div>
 
                   </div>

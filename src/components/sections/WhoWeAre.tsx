@@ -16,9 +16,44 @@ const PILLARS = [
   }
 ];
 
+function RisingParticles() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {[...Array(25)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-primary/20"
+          initial={{
+            x: `${Math.random() * 100}%`,
+            y: "110%",
+            scale: Math.random() * 0.5 + 0.5,
+            opacity: 0,
+          }}
+          animate={{
+            y: "-10%",
+            opacity: [0, 0.4, 0],
+          }}
+          transition={{
+            duration: Math.random() * 10 + 15,
+            repeat: Infinity,
+            ease: "linear",
+            delay: Math.random() * 20,
+          }}
+          style={{
+            width: `${Math.random() * 4 + 2}px`,
+            height: `${Math.random() * 4 + 2}px`,
+            filter: "blur(1px)",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function WhoWeAre() {
   return (
     <section id="about" className="relative w-full py-40 px-6 overflow-hidden bg-background">
+      <RisingParticles />
       
       {/* Immersive Background Atmosphere */}
       <div className="absolute top-1/4 -right-1/4 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />

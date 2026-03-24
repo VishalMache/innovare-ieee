@@ -136,7 +136,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   { // RIGHT-09
     name: "Tiya Manwani",
-    role: "Sponser Head",
+    role: "Treasurer",
     img: "/images/tiya.png",
   },
   { // RIGHT-10

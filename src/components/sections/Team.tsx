@@ -1,7 +1,8 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Twitter, ChevronLeft, ChevronRight } from "lucide-react";
+import { Github, Linkedin, Twitter, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import React, { useState } from "react";
+import Link from "next/link";
 
 // Import the user-editable data source for all team profiles
 import { TEAM_MEMBERS as MEMBERS } from "../../data/team-members";
@@ -93,12 +94,27 @@ export function Team() {
           </motion.p>
         </div>
 
+
         {/* Downside-Bending Extensible Arch Carousel Container */}
         <div className="relative h-[650px] md:h-[600px] w-full max-w-[100vw] flex justify-center perspective-[1200px] mt-12 overflow-visible">
           
           {/* SVG Hardware Orbital Thread Connection */}
           <div className="absolute top-[500px] left-1/2 -translate-x-1/2 w-[220vw] max-w-[2200px] h-[300px] pointer-events-none z-0 opacity-60">
              <svg viewBox="0 0 1000 300" className="w-full h-full" preserveAspectRatio="none">
+               <path 
+                 d="M 0 300 Q 500 -80 1000 300" 
+                 fill="none" 
+                 stroke="url(#thread-glow)" 
+                 strokeWidth="2"
+                 strokeDasharray="4 8"
+               />
+               <path 
+                 d="M 0 300 Q 500 -80 1000 300" 
+                 fill="none" 
+                 stroke="url(#thread-glow)" 
+                 strokeWidth="10"
+                 className="blur-xl opacity-50"
+               />
                <defs>
                  <linearGradient id="thread-glow" x1="0%" y1="0%" x2="100%" y2="0%">
                    <stop offset="0%" stopColor="transparent" />
@@ -108,45 +124,6 @@ export function Team() {
                    <stop offset="100%" stopColor="transparent" />
                  </linearGradient>
                </defs>
-               
-               {/* Background Thread (Dashed) */}
-               <path 
-                 d="M 0 300 Q 500 -80 1000 300" 
-                 fill="none" 
-                 stroke="url(#thread-glow)" 
-                 strokeWidth="2"
-                 strokeDasharray="4 8"
-                 className="opacity-20"
-               />
-               
-               {/* Active Progress Thread (Solid Glow - Center Out) */}
-               <motion.path 
-                 d="M 0 300 Q 500 -80 1000 300" 
-                 fill="none" 
-                 stroke="url(#thread-glow)" 
-                 strokeWidth="3"
-                 initial={{ pathLength: 0, pathOffset: 12 / (MEMBERS.length - 1) }}
-                 animate={{ 
-                   pathLength: Math.abs(currentIndex / (MEMBERS.length - 1) - 12 / (MEMBERS.length - 1)),
-                   pathOffset: Math.min(currentIndex / (MEMBERS.length - 1), 12 / (MEMBERS.length - 1))
-                 }}
-                 transition={{ type: "spring", stiffness: 50, damping: 20 }}
-               />
-               
-               {/* Progress Bead/Glow (Center Out) */}
-               <motion.path 
-                 d="M 0 300 Q 500 -80 1000 300" 
-                 fill="none" 
-                 stroke="url(#thread-glow)" 
-                 strokeWidth="12"
-                 className="blur-xl opacity-30"
-                 initial={{ pathLength: 0, pathOffset: 12 / (MEMBERS.length - 1) }}
-                 animate={{ 
-                   pathLength: Math.abs(currentIndex / (MEMBERS.length - 1) - 12 / (MEMBERS.length - 1)),
-                   pathOffset: Math.min(currentIndex / (MEMBERS.length - 1), 12 / (MEMBERS.length - 1))
-                 }}
-                 transition={{ type: "spring", stiffness: 50, damping: 20 }}
-               />
              </svg>
           </div>
 
@@ -167,7 +144,7 @@ export function Team() {
                   animate={getTransform(diff)}
                   transition={{ type: "spring", stiffness: 200, damping: 25 }}
                   className={`absolute top-0 w-[85vw] md:w-[380px] h-[500px] rounded-[2.5rem] shadow-2xl overflow-hidden border ${
-                    isCenter ? 'border-primary/50 shadow-[0_0_60px_rgba(94,163,193,0.3)]' : 'border-white/10 shadow-black/80 pointer-events-none grayscale backdrop-blur-sm'
+                    isCenter ? 'border-primary/50 shadow-[0_0_60px_rgba(94,163,193,0.3)]' : 'border-white/10 shadow-black/80 pointer-events-none'
                   } bg-[#0a0a0a]`}
                   style={{ transformOrigin: "bottom center" }}
                 >
@@ -224,7 +201,7 @@ export function Team() {
           </AnimatePresence>
 
           {/* Massively Escalated Visibility Navigation Controls */}
-          <div className="absolute top-[250px] w-full flex justify-between px-2 md:px-0 z-50 pointer-events-none">
+          <div className="absolute top-[250px] w-full flex justify-between px-6 md:px-0 z-50 pointer-events-none">
              <button 
                onClick={handlePrev}
                className="relative pointer-events-auto flex items-center justify-center p-4 md:p-6 rounded-full bg-white text-black hover:bg-primary hover:text-white shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:shadow-primary/50 transition-all duration-300 hover:scale-110 active:scale-95 group -translate-x-2 md:-translate-x-0"
@@ -243,6 +220,20 @@ export function Team() {
           </div>
 
         </div>
+
+        {/* View Entire Team Navigation */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-20 flex justify-center"
+        >
+          <Link href="/team" className="group relative flex items-center gap-4 px-10 py-5 rounded-full bg-white/5 border border-white/10 text-white/80 font-bold tracking-widest uppercase hover:bg-primary hover:text-white hover:border-primary transition-all duration-500 hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(0,0,0,0.4)] hover:shadow-primary/40">
+            <span className="relative z-10">View Entire Team</span>
+            <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-2 transition-transform duration-500" />
+            <div className="absolute inset-0 rounded-full border border-white opacity-0 group-hover:opacity-40 blur-[4px] group-hover:animate-pulse" />
+          </Link>
+        </motion.div>
 
 
 

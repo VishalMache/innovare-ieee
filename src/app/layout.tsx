@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Inter, Space_Grotesk } from "next/font/google";
+import React from "react";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SmoothScroll } from "@/components/animations/SmoothScroll";
@@ -8,16 +9,16 @@ import { Cursor } from "@/components/animations/Cursor";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+const inter = Inter({
+  subsets: ["latin"],
   variable: "--font-sans",
-  weight: "100 900",
+  display: 'swap',
 });
 
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-mono",
-  weight: "100 900",
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -42,8 +43,8 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          geistSans.variable,
-          geistMono.variable,
+          inter.variable,
+          spaceGrotesk.variable,
           "antialiased font-sans bg-background text-foreground selection:bg-primary/30"
         )}
       >
