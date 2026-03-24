@@ -79,7 +79,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   { // LEFT-12
     name: "Vishal Mache",
     role: "Technical Head",
-    img: "/images/vishal.png",
+    img: "/images/vishall.png",
   },
 
   // ==========================================
