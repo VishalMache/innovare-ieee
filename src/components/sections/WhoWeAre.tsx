@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { SplineScene } from "@/components/ui/splite";
 
 const PILLARS = [
   {
@@ -92,8 +93,8 @@ export function WhoWeAre() {
       <div className="container mx-auto max-w-7xl relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
           
-          {/* Left Side: Bold Mission Paragraphs */}
-          <div className="flex-1 space-y-10">
+          {/* Left Side: Bold Mission Paragraphs and Pillars */}
+          <div className="flex-1 space-y-12">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -101,43 +102,46 @@ export function WhoWeAre() {
               transition={{ duration: 0.8 }}
               className="space-y-8"
             >
-              <p className="text-2xl md:text-3xl text-white font-bold leading-tight tracking-tight">
+              <h2 className="text-2xl md:text-3xl text-white font-bold leading-tight tracking-tight">
                 INNOVARE IEEE is a high-performance environment where we cultivate the elite skills 
                 required to lead in the global technology landscape. 
-              </p>
+              </h2>
               
-              <p className="text-xl md:text-2xl text-white font-bold leading-relaxed opacity-90">
+              <p className="text-lg md:text-xl text-white font-medium leading-relaxed opacity-90">
                 Our members don&apos;t just learn—they build, deploy, and scale solutions that solve 
                 real challenges, moving beyond the boundaries of traditional education through 
                 relentless shipping and deep-tech focus.
               </p>
             </motion.div>
-          </div>
 
-          {/* Right Side: Simple Bullet Points */}
-          <div className="flex-1 space-y-12">
-            <div className="space-y-10 border-l border-white/5 pl-8 lg:pl-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6 border-t border-white/10">
               {PILLARS.map((pillar, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="relative space-y-2 group"
+                  className="space-y-2 group"
                 >
-                  {/* Custom Tech Bullet */}
-                  <div className="absolute -left-[41px] lg:-left-[57px] top-3 w-4 h-4 rounded-full bg-primary/20 border border-primary/40 group-hover:bg-primary group-hover:shadow-[0_0_15px_rgba(94,163,193,0.8)] transition-all duration-300" />
-                  
-                  <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors duration-300">
+                  <div className="w-8 h-1 rounded-full bg-primary/40 group-hover:bg-primary transition-colors duration-300 mb-4" />
+                  <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors duration-300">
                     {pillar.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
                     {pillar.description}
                   </p>
                 </motion.div>
               ))}
             </div>
+          </div>
+
+          {/* Right Side: Spline Robot */}
+          <div className="flex-1 relative w-full h-[400px] md:h-[600px] flex items-center justify-center">
+            <SplineScene 
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full"
+            />
           </div>
 
         </div>

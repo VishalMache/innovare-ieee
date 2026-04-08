@@ -13,6 +13,8 @@
     "@hookform/resolvers": "^5.2.2",
     "@react-three/drei": "^9.117.3",
     "@react-three/fiber": "^8.17.10",
+    "@splinetool/react-spline": "^4.1.0",
+    "@splinetool/runtime": "^1.12.72",
     "@supabase/supabase-js": "^2.99.3",
     "@tailwindcss/postcss": "^4.2.2",
     "@types/three": "^0.183.1",
