@@ -1,57 +1,92 @@
 "use client";
+
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import React, { useState } from "react";
-import Link from "next/link";
+import { Github, Linkedin, Users, Shield, Cpu, Sparkles } from "lucide-react";
+import React, { useState, useMemo } from "react";
 
 // Import the user-editable data source for all team profiles
 import { TEAM_MEMBERS as MEMBERS } from "../../data/team-members";
 
-
+type Department = "All" | "Leadership" | "Heads" | "Volunteers";
 
 export function Team() {
-  const [currentIndex, setCurrentIndex] = useState(12);
+  const [activeDept, setActiveDept] = useState<Department>("All");
 
-  const handleNext = () => setCurrentIndex((prev) => Math.min(prev + 1, MEMBERS.length - 1));
-  const handlePrev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0));
+  // Dynamic grouping logic to partition the 26 members correctly
+  const groupedMembers = useMemo(() => {
+    return MEMBERS.map((member) => {
+      const role = member.role.toLowerCase();
+      let dept: Department = "Volunteers";
 
-  const getDiff = (index: number) => {
-    return index - currentIndex;
+      if (
+        role.includes("president") || 
+        role.includes("secretary") || 
+        role.includes("treasurer")
+      ) {
+        dept = "Leadership";
+      } else if (role.includes("head") || role.includes("vice")) {
+        // "Vice President" would fall into Leadership because it contains "president" above
+        dept = "Heads";
+      } else if (role.includes("volunteer")) {
+        dept = "Volunteers";
+      }
+
+      return { ...member, dept };
+    });
+  }, []);
+
+  // Filter members based on selected department tab
+  const filteredMembers = useMemo(() => {
+    if (activeDept === "All") return groupedMembers;
+    return groupedMembers.filter((m) => m.dept === activeDept);
+  }, [groupedMembers, activeDept]);
+
+  // Derive 1-2 letter initials from member names dynamically
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
   };
 
-  const getTransform = (diff: number) => {
-    const abs = Math.abs(diff);
-
-    // Expanded view scope: only hide completely if abs is >= 3
-    if (abs >= 3) {
-      return {
-        x: "0%",
-        y: 200,
-        scale: 0.4,
-        rotate: 0,
-        opacity: 0,
-        zIndex: 0,
-      };
-    }
-
-    // Precise mathematical downside-bending arch that perfectly scopes 5 cards into view (diff: -2, -1, 0, 1, 2)
-    return {
-      x: `${diff * 115}%`,     // Spreads outwards symmetrically 
-      y: abs * 90,             // Plunges downwards to form the architectural inverse arch
-      scale: 1 - abs * 0.20,   // Aggressive scale reduction on outer edges so 5 cards fit beautifully
-      rotate: diff * 2,        // Barely perceptible tilt towards the focal center
-      opacity: 1 - abs * 0.35, // Smooth opacity bleed toward the horizon (0.3 on outermost rings)
-      zIndex: 10 - abs,
-    };
+  // Stagger entry configurations
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+      },
+    },
   };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 25, scale: 0.95 },
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { type: "spring" as const, stiffness: 150, damping: 18 }
+    },
+  };
+
+  const tabs: { id: Department; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+    { id: "All", label: "All Nodes", icon: Users },
+    { id: "Leadership", label: "Leadership", icon: Shield },
+    { id: "Heads", label: "Vertical Heads", icon: Cpu },
+    { id: "Volunteers", label: "Volunteers", icon: Sparkles },
+  ];
 
   return (
-    <section id="team" className="py-32 bg-background relative overflow-hidden border-t border-white/5 transform-gpu">
-      {/* Background Deep Glow */}
-      <div className="absolute top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[800px] bg-primary/10 blur-[150px] pointer-events-none rounded-full transform-gpu" />
+    <section id="team" className="py-32 bg-background relative overflow-hidden border-t border-white/5">
+      {/* Background Deep Ambient Glows */}
+      <div className="absolute top-[30%] left-1/4 w-[800px] h-[500px] bg-primary/5 blur-[120px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-[20%] right-1/4 w-[800px] h-[500px] bg-sky-500/5 blur-[120px] pointer-events-none rounded-full" />
       
-      {/* Structural Network Lattice */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none mix-blend-overlay">
+      {/* Structural Network Grid Overlay */}
+      <div className="absolute inset-0 opacity-[0.015] pointer-events-none mix-blend-overlay">
          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="team-grid" width="60" height="60" patternUnits="userSpaceOnUse">
@@ -62,180 +97,145 @@ export function Team() {
          </svg>
       </div>
 
-      <div className="container mx-auto px-6 max-w-[1400px] relative z-10 w-full flex flex-col items-center">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10 w-full flex flex-col items-center">
         
-        {/* Core Titles */}
-        <div className="text-center mb-16 md:mb-20">
+        {/* Section Titles */}
+        <div className="text-center mb-16">
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-sm font-bold tracking-widest text-primary uppercase mb-4"
           >
-            Network Roster ({MEMBERS.length} Nodes Online)
+            Network Roster ({MEMBERS.length} Active Nodes)
           </motion.h2>
           <motion.h3 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.05 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter mb-6"
+          >
+            Meet the Syndicate.
+          </motion.h3>
+          <motion.p 
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-6"
+            className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto"
           >
-            Meet the Network.
-          </motion.h3>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto"
-          >
-            A massive interconnected syndicate of elite engineers, architects, and designers working independently across the globe.
+            A high-performance team of developers, researchers, and designers shipping the next generation of academic tech.
           </motion.p>
         </div>
 
-
-        {/* Downside-Bending Extensible Arch Carousel Container */}
-        <div className="relative h-[650px] md:h-[600px] w-full max-w-[100vw] flex justify-center perspective-[1200px] mt-12 overflow-visible">
-          
-          {/* SVG Hardware Orbital Thread Connection */}
-          <div className="absolute top-[500px] left-1/2 -translate-x-1/2 w-[220vw] max-w-[2200px] h-[300px] pointer-events-none z-0 opacity-60">
-             <svg viewBox="0 0 1000 300" className="w-full h-full" preserveAspectRatio="none">
-               <path 
-                 d="M 0 300 Q 500 -80 1000 300" 
-                 fill="none" 
-                 stroke="url(#thread-glow)" 
-                 strokeWidth="2"
-                 strokeDasharray="4 8"
-               />
-               <path 
-                 d="M 0 300 Q 500 -80 1000 300" 
-                 fill="none" 
-                 stroke="url(#thread-glow)" 
-                 strokeWidth="10"
-                 className="blur-xl opacity-50"
-               />
-               <defs>
-                 <linearGradient id="thread-glow" x1="0%" y1="0%" x2="100%" y2="0%">
-                   <stop offset="0%" stopColor="transparent" />
-                   <stop offset="25%" stopColor="#5EA3C1" stopOpacity="0.8" />
-                   <stop offset="50%" stopColor="#5EA3C1" />
-                   <stop offset="75%" stopColor="#5EA3C1" stopOpacity="0.8" />
-                   <stop offset="100%" stopColor="transparent" />
-                 </linearGradient>
-               </defs>
-             </svg>
-          </div>
-
-          <AnimatePresence initial={false}>
-            {MEMBERS.map((member, i) => {
-              const diff = getDiff(i);
-              
-              // Only render DOM elements for cards technically in scope to preserve huge performance across dense arrays
-              if (Math.abs(diff) >= 3) return null;
-
-              
-              const isCenter = diff === 0;
-
-              return (
-                <motion.div
-                  key={member.name}
-                  initial={false}
-                  animate={getTransform(diff)}
-                  transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                  className={`absolute top-0 w-[85vw] md:w-[380px] h-[500px] rounded-[2.5rem] shadow-2xl overflow-hidden border ${
-                    isCenter ? 'border-primary/50 shadow-[0_0_60px_rgba(94,163,193,0.3)]' : 'border-white/10 shadow-black/80 pointer-events-none'
-                  } bg-[#0a0a0a]`}
-                  style={{ transformOrigin: "bottom center" }}
-                >
-                  {/* Base Rest node connecting the card to the SVG Railing */}
-                  {isCenter && (
-                    <div className="absolute bottom-[0px] left-1/2 -translate-x-1/2 w-12 h-12 bg-primary/20 rounded-full blur-xl animate-pulse" />
-                  )}
-
-                   {/* High Quality Profile Background */}
-                  <div className="absolute inset-x-0 top-0 h-full w-full">
-                     <div 
-                       className={`absolute inset-0 bg-cover bg-center transition-all duration-700 ${isCenter ? 'scale-100 opacity-100' : 'scale-110 opacity-85'}`} 
-                       style={{ backgroundImage: `url(${member.img})` }} 
-                     />
-                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
-                  </div>
-                  
-                  {/* Heavy Architectural Content Core */}
-                  <div className="absolute inset-x-0 bottom-0 h-[45%] p-8 pt-0 flex flex-col items-center text-center bg-gradient-to-t from-background via-background/90 to-transparent">
-                     <h3 className="text-3xl font-black text-white mb-2 drop-shadow-md tracking-tighter mt-12">{member.name}</h3>
-                     <p className="text-[11px] font-bold tracking-widest uppercase text-primary mb-6 drop-shadow-md">{member.role}</p>
-                     
-                     {/* Functional Dynamic Social Links - Now replacing Bio */}
-                     <div className="flex gap-4 z-30">
-                        <a 
-                          href={member.githubUrl || "https://github.com"} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className={`p-3 rounded-full transition-all cursor-pointer border ${
-                            isCenter 
-                            ? 'bg-primary/20 text-white border-primary/50 hover:bg-primary shadow-[0_0_15px_rgba(94,163,193,0.3)]' 
-                            : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
-                          }`}
-                        >
-                          <Github className="w-5 h-5" />
-                        </a>
-                        <a 
-                          href={member.linkedinUrl || "https://linkedin.com"} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className={`p-3 rounded-full transition-all cursor-pointer border ${
-                            isCenter 
-                            ? 'bg-primary/20 text-white border-primary/50 hover:bg-primary shadow-[0_0_15px_rgba(94,163,193,0.3)]' 
-                            : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
-                          }`}
-                        >
-                          <Linkedin className="w-5 h-5" />
-                        </a>
-                     </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-
-          {/* Massively Escalated Visibility Navigation Controls */}
-          <div className="absolute top-[250px] w-full flex justify-between px-6 md:px-0 z-50 pointer-events-none">
-             <button 
-               onClick={handlePrev}
-               className="relative pointer-events-auto flex items-center justify-center p-4 md:p-6 rounded-full bg-white text-black hover:bg-primary hover:text-white shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:shadow-primary/50 transition-all duration-300 hover:scale-110 active:scale-95 group -translate-x-2 md:-translate-x-0"
-             >
-               <ChevronLeft className="w-8 h-8 md:w-10 md:h-10 group-hover:-translate-x-1 transition-transform" />
-               <div className="absolute inset-0 rounded-full border border-white opacity-40 blur-[2px] group-hover:border-primary group-hover:animate-ping" />
-             </button>
-             
-             <button 
-               onClick={handleNext}
-               className="relative pointer-events-auto flex items-center justify-center p-4 md:p-6 rounded-full bg-white text-black hover:bg-primary hover:text-white shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:shadow-primary/50 transition-all duration-300 hover:scale-110 active:scale-95 group translate-x-2 md:-translate-x-0"
-             >
-               <ChevronRight className="w-8 h-8 md:w-10 md:h-10 group-hover:translate-x-1 transition-transform" />
-               <div className="absolute inset-0 rounded-full border border-white opacity-40 blur-[2px] group-hover:border-primary group-hover:animate-ping" />
-             </button>
-          </div>
-
-        </div>
-
-        {/* View Entire Team Navigation */}
+        {/* Dynamic Department Tabs */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-20 flex justify-center"
+          transition={{ delay: 0.15 }}
+          className="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-white/5 border border-white/10 rounded-2xl md:rounded-full mb-16 max-w-full select-none"
         >
-          <Link href="/team" className="group relative flex items-center gap-4 px-10 py-5 rounded-full bg-white/5 border border-white/10 text-white/80 font-bold tracking-widest uppercase hover:bg-primary hover:text-white hover:border-primary transition-all duration-500 hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(0,0,0,0.4)] hover:shadow-primary/40">
-            <span className="relative z-10">View Entire Team</span>
-            <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-2 transition-transform duration-500" />
-            <div className="absolute inset-0 rounded-full border border-white opacity-0 group-hover:opacity-40 blur-[4px] group-hover:animate-pulse" />
-          </Link>
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveDept(tab.id)}
+                className={`relative flex items-center gap-2 px-5 py-2.5 rounded-xl md:rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 ${
+                  activeDept === tab.id 
+                    ? "text-black" 
+                    : "text-white/60 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                {activeDept === tab.id && (
+                  <motion.div
+                    layoutId="active-dept-pill"
+                    className="absolute inset-0 bg-white rounded-xl md:rounded-full -z-10 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <Icon className="w-3.5 h-3.5" />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
         </motion.div>
 
+        {/* Members Roster Grid */}
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredMembers.map((member) => (
+              <motion.div
+                key={member.name}
+                layout
+                variants={cardVariants}
+                exit={{ opacity: 0, scale: 0.9, y: 15 }}
+                className="group relative p-6 bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 hover:border-primary/45 transition-all duration-500 rounded-3xl overflow-hidden flex flex-col items-center text-center shadow-xl h-[330px] justify-between"
+              >
+                {/* Micro Ambient Glow Behind Profile on Hover */}
+                <div className="absolute -bottom-16 w-32 h-32 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
 
+                {/* Profile Circle Frame */}
+                <div className="relative w-28 h-28 rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/40 transition-colors duration-500 shadow-md bg-neutral-900/60 flex items-center justify-center">
+                  
+                  {/* Fallback Initials Avatar (shown while image downloads) */}
+                  <span className="font-mono text-xl font-bold text-white/30 tracking-wider">
+                    {getInitials(member.name)}
+                  </span>
+
+                  {/* Profile Picture — Configured with lazy loading to save bandwidth */}
+                  <img
+                    src={member.img}
+                    alt={member.name}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500"
+                    onError={(e) => {
+                      // Hide image element if file is missing, falling back to initials background
+                      (e.target as HTMLElement).style.display = "none";
+                    }}
+                  />
+                </div>
+
+                {/* Profile Info */}
+                <div className="mt-4 flex-1 flex flex-col justify-center">
+                  <h4 className="text-lg font-black text-white group-hover:text-primary transition-colors duration-300 tracking-tight leading-tight">
+                    {member.name}
+                  </h4>
+                  <p className="text-[10px] font-bold tracking-widest uppercase text-primary/70 mt-1">
+                    {member.role}
+                  </p>
+                </div>
+
+                {/* Social Nodes */}
+                <div className="flex gap-3 mt-4 pt-4 border-t border-white/5 w-full justify-center relative z-10 select-none">
+                  <a
+                    href={member.githubUrl || "https://github.com"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-primary/25 hover:border-primary/50 hover:shadow-[0_0_12px_rgba(94,163,193,0.3)] transition-all duration-300"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
+                  <a
+                    href={member.linkedinUrl || "https://linkedin.com"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-primary/25 hover:border-primary/50 hover:shadow-[0_0_12px_rgba(94,163,193,0.3)] transition-all duration-300"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
 
       </div>
     </section>

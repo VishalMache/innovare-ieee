@@ -30,10 +30,9 @@ export function HeroSection() {
         {!mounted && <Fallback3D type="hero" />}
       </div>
 
-      <div className="container relative z-10 mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center mt-12">
-
-        {/* ── Left Column: Text ── */}
-        <div className="flex flex-col items-start text-left w-full">
+      <div className="container relative z-10 mx-auto px-6 flex flex-col items-center justify-center mt-12">
+        
+        <div className="flex flex-col items-center text-center w-full max-w-4xl">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -49,7 +48,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: ANIMATION.HERO, ease: "easeOut", delay: 0.4 }}
-            className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold tracking-tighter text-balance mb-6 max-w-2xl leading-tight"
+            className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold tracking-tighter text-balance mb-6 leading-tight"
           >
             Where ideas become{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent-foreground font-heading font-bold">
@@ -61,7 +60,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: ANIMATION.HERO, ease: "easeOut", delay: 0.6 }}
-            className="text-base md:text-xl text-muted-foreground max-w-xl text-balance mb-12"
+            className="text-base md:text-xl text-muted-foreground max-w-2xl text-balance mb-12"
           >
             {CONTENT.COPY.heroSubHeadline}
           </motion.p>
@@ -70,7 +69,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: ANIMATION.HERO, ease: "easeOut", delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full sm:w-auto"
           >
             <a
               href="#join"
@@ -89,28 +88,6 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* ── Right Column: Video ── */}
-        <motion.div
-          initial={{ opacity: 0, filter: "blur(20px)" }}
-          animate={{ opacity: 1, filter: "blur(0px)" }}
-          transition={{ duration: ANIMATION.HERO, delay: 0.5 }}
-          className="relative w-full aspect-square md:aspect-video lg:aspect-square flex items-center justify-center pointer-events-none lg:scale-110 rounded-[2rem] overflow-hidden border border-white/5"
-          style={{
-            maskImage: "radial-gradient(circle at center, black 60%, transparent 100%)",
-            WebkitMaskImage: "radial-gradient(circle at center, black 60%, transparent 100%)",
-          }}
-        >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-contain rounded-[2rem] opacity-90 select-none pb-12 lg:pb-0 mix-blend-screen"
-          >
-            <source src="/ieee-bg.mp4" type="video/mp4" />
-          </video>
-        </motion.div>
-
       </div>
 
       {/* Bottom gradient blend */}
@@ -118,3 +95,4 @@ export function HeroSection() {
     </section>
   );
 }
+
