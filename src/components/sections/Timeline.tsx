@@ -77,7 +77,7 @@ export function Timeline() {
           {/* Upcoming Events */}
           <div className="lg:col-span-6">
             <h4 className="font-mono text-[10px] tracking-widest text-ink-secondary mb-8 border-b border-border/50 pb-4 uppercase">
-              // Scheduled Executions
+              {"// Scheduled Executions"}
             </h4>
             <div className="flex flex-col gap-6">
               {UPCOMING_EVENTS.map(event => (
@@ -112,7 +112,7 @@ export function Timeline() {
           {/* Past Events Timeline */}
           <div className="lg:col-span-6">
             <h4 className="font-mono text-[10px] tracking-widest text-ink-secondary mb-8 border-b border-border/50 pb-4 uppercase">
-              // Execution History Logs
+              {"// Execution History Logs"}
             </h4>
             <div className="relative border-l border-border/30 ml-2 flex flex-col gap-10 py-4 font-mono">
               {PAST_EVENTS.map(event => (

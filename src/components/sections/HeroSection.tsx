@@ -93,7 +93,7 @@ export function HeroSection() {
             {/* Label above robot */}
             <div className="mb-4 flex items-center gap-2">
               <span className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">N O V A</span>
-              <span className="font-mono text-[10px] text-accent tracking-widest">// AI Guide</span>
+              <span className="font-mono text-[10px] text-accent tracking-widest">{"// AI Guide"}</span>
             </div>
 
             <VoiceAssistant />

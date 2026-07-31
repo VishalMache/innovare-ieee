@@ -64,6 +64,7 @@ export function Team() {
                 {/* Blue tint overlay that fades on hover */}
                 <div className="absolute inset-0 bg-accent/20 mix-blend-color z-20 group-hover:opacity-0 transition-opacity duration-500"></div>
                 
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={member.img}
                   alt={member.name}

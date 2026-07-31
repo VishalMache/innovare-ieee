@@ -29,13 +29,7 @@ export function VoiceAssistant() {
     speaking: "text-green-400",
   };
 
-  // Suggested prompts
-  const SUGGESTIONS = [
-    "Show me projects",
-    "Upcoming events",
-    "How to join?",
-    "About INNOVARE",
-  ];
+
 
   if (!isOpen) {
     return (
@@ -95,7 +89,7 @@ export function VoiceAssistant() {
                </svg>
              </div>
              <p className="font-sans text-xs text-ink-secondary/70 italic leading-relaxed">
-               "{transcript}"
+               &quot;{transcript}&quot;
              </p>
           </div>
         )}

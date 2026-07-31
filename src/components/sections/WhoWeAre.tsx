@@ -96,7 +96,7 @@ export function WhoWeAre() {
             </span>
             
             <p className="font-mono text-sm text-ink-primary relative z-10 leading-relaxed mb-8">
-              "Excellence is not an act, but a habit. We ship fast, but we never break the architecture. Optimization is the only path."
+              &quot;Excellence is not an act, but a habit. We ship fast, but we never break the architecture. Optimization is the only path.&quot;
             </p>
             
             <div className="mt-auto flex items-center gap-4 relative z-10 border-t border-border/50 pt-4">
