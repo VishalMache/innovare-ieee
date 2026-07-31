@@ -1,241 +1,92 @@
 "use client";
+import React from "react";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Users, Shield, Cpu, Sparkles } from "lucide-react";
-import React, { useState, useMemo } from "react";
-
-// Import the user-editable data source for all team profiles
-import { TEAM_MEMBERS as MEMBERS } from "../../data/team-members";
-
-type Department = "All" | "Leadership" | "Heads" | "Volunteers";
+const TEAM_MEMBERS = [
+  { id: 1, name: "Aditya", role: "CHAIRPERSON", img: "/images/aditya.png" },
+  { id: 2, name: "Arko", role: "VICE CHAIR", img: "/images/arko.png" },
+  { id: 3, name: "Aryan", role: "TECH_LEAD", img: "/images/aryan.png" },
+  { id: 4, name: "Atharva", role: "LEAD_ARCHITECT", img: "/images/atharva.png" },
+  { id: 5, name: "Chaitali", role: "UI_UX_CORE", img: "/images/chaitali.png" },
+  { id: 6, name: "Ishwar", role: "EVENT_CTRL", img: "/images/ishwar.png" },
+  { id: 7, name: "Ishwari", role: "PR_INTERFACE", img: "/images/ishwari.png" },
+  { id: 8, name: "Jayada", role: "FINANCE_NODE", img: "/images/jayada.png" },
+  { id: 9, name: "Meet", role: "WEB_MASTER", img: "/images/meet.png" },
+  { id: 10, name: "Mohit", role: "SYS_ENGINEER", img: "/images/mohit.png" },
+  { id: 11, name: "Parth", role: "BACKEND_NODE", img: "/images/parth.png" },
+  { id: 12, name: "Payal", role: "DESIGN_CTRL", img: "/images/payal.png" },
+  { id: 13, name: "Pratik", role: "DEVOPS_NODE", img: "/images/pratik.png" },
+  { id: 14, name: "Punya", role: "RESEARCH_NODE", img: "/images/punya.png" },
+  { id: 15, name: "Pushpak", role: "ML_ENGINEER", img: "/images/pushpak.png" },
+  { id: 16, name: "Rajvardhan", role: "INFRA_LEAD", img: "/images/rajvardhan.png" },
+];
 
 export function Team() {
-  const [activeDept, setActiveDept] = useState<Department>("All");
-
-  // Dynamic grouping logic to partition the 26 members correctly
-  const groupedMembers = useMemo(() => {
-    return MEMBERS.map((member) => {
-      const role = member.role.toLowerCase();
-      let dept: Department = "Volunteers";
-
-      if (
-        role.includes("president") || 
-        role.includes("secretary") || 
-        role.includes("treasurer")
-      ) {
-        dept = "Leadership";
-      } else if (role.includes("head") || role.includes("vice")) {
-        // "Vice President" would fall into Leadership because it contains "president" above
-        dept = "Heads";
-      } else if (role.includes("volunteer")) {
-        dept = "Volunteers";
-      }
-
-      return { ...member, dept };
-    });
-  }, []);
-
-  // Filter members based on selected department tab
-  const filteredMembers = useMemo(() => {
-    if (activeDept === "All") return groupedMembers;
-    return groupedMembers.filter((m) => m.dept === activeDept);
-  }, [groupedMembers, activeDept]);
-
-  // Derive 1-2 letter initials from member names dynamically
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .slice(0, 2)
-      .toUpperCase();
-  };
-
-  // Stagger entry configurations
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 25, scale: 0.95 },
-    show: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1,
-      transition: { type: "spring" as const, stiffness: 150, damping: 18 }
-    },
-  };
-
-  const tabs: { id: Department; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { id: "All", label: "All Nodes", icon: Users },
-    { id: "Leadership", label: "Leadership", icon: Shield },
-    { id: "Heads", label: "Vertical Heads", icon: Cpu },
-    { id: "Volunteers", label: "Volunteers", icon: Sparkles },
-  ];
-
   return (
-    <section id="team" className="py-32 bg-background relative overflow-hidden border-t border-white/5">
-      {/* Background Deep Ambient Glows */}
-      <div className="absolute top-[30%] left-1/4 w-[800px] h-[500px] bg-primary/5 blur-[120px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-[20%] right-1/4 w-[800px] h-[500px] bg-sky-500/5 blur-[120px] pointer-events-none rounded-full" />
-      
-      {/* Structural Network Grid Overlay */}
-      <div className="absolute inset-0 opacity-[0.015] pointer-events-none mix-blend-overlay">
-         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="team-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="white" strokeWidth="1" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#team-grid)" />
-         </svg>
-      </div>
-
-      <div className="container mx-auto px-6 max-w-7xl relative z-10 w-full flex flex-col items-center">
+    <section id="team" className="py-32 bg-[#050505] relative">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
         
-        {/* Section Titles */}
-        <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-sm font-bold tracking-widest text-primary uppercase mb-4"
-          >
-            Network Roster ({MEMBERS.length} Active Nodes)
-          </motion.h2>
-          <motion.h3 
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.05 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter mb-6"
-          >
-            Meet the Syndicate.
-          </motion.h3>
-          <motion.p 
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto"
-          >
-            A high-performance team of developers, researchers, and designers shipping the next generation of academic tech.
-          </motion.p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+          <div>
+            <h2 className="font-mono text-xs font-bold tracking-widest text-accent uppercase mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 bg-accent shadow-[0_0_8px_rgba(0,194,255,0.8)] animate-pulse"></span>
+              Active Network Nodes
+            </h2>
+            <h3
+              className="font-mono text-4xl md:text-5xl font-black tracking-tighter"
+              style={{
+                backgroundImage: "repeating-linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 45%, transparent 45%, transparent 100%)",
+                backgroundSize: "100% 5px",
+                WebkitBackgroundClip: "text",
+                color: "transparent",
+              }}
+            >
+              The Syndicate Core.
+            </h3>
+          </div>
+          <a href="/team" className="font-mono text-[10px] font-bold text-ink-secondary border border-border/50 px-4 py-2 hover:bg-bg-subtle hover:text-ink-primary hover:border-accent/50 transition-colors uppercase tracking-widest">
+            Access Full Directory →
+          </a>
         </div>
 
-        {/* Dynamic Department Tabs */}
-        <motion.div 
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.15 }}
-          className="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-white/5 border border-white/10 rounded-2xl md:rounded-full mb-16 max-w-full select-none"
-        >
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveDept(tab.id)}
-                className={`relative flex items-center gap-2 px-5 py-2.5 rounded-xl md:rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 ${
-                  activeDept === tab.id 
-                    ? "text-black" 
-                    : "text-white/60 hover:text-white hover:bg-white/5"
-                }`}
-              >
-                {activeDept === tab.id && (
-                  <motion.div
-                    layoutId="active-dept-pill"
-                    className="absolute inset-0 bg-white rounded-xl md:rounded-full -z-10 shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-                <Icon className="w-3.5 h-3.5" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
-        </motion.div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
+          {TEAM_MEMBERS.map((member) => (
+            <div key={member.id} className="group relative aspect-[3/4] bg-bg-base border border-border/50 overflow-hidden cursor-pointer hover:border-accent/50 transition-colors duration-300">
+              
+              {/* Photo */}
+              <div className="absolute inset-0 bg-bg-surface">
+                {/* Scanline overlay */}
+                <div className="absolute inset-0 z-10 pointer-events-none opacity-30"
+                  style={{
+                    backgroundImage: "repeating-linear-gradient(0deg, rgba(0,0,0,0.4) 0px, rgba(0,0,0,0.4) 1px, transparent 1px, transparent 4px)",
+                    backgroundSize: "100% 4px"
+                  }}
+                ></div>
+                {/* Blue tint overlay that fades on hover */}
+                <div className="absolute inset-0 bg-accent/20 mix-blend-color z-20 group-hover:opacity-0 transition-opacity duration-500"></div>
+                
+                <img
+                  src={member.img}
+                  alt={member.name}
+                  className="w-full h-full object-cover object-top filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                />
+              </div>
 
-        {/* Members Roster Grid */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredMembers.map((member) => (
-              <motion.div
-                key={member.name}
-                layout
-                variants={cardVariants}
-                exit={{ opacity: 0, scale: 0.9, y: 15 }}
-                className="group relative p-6 bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 hover:border-primary/45 transition-all duration-500 rounded-3xl overflow-hidden flex flex-col items-center text-center shadow-xl h-[330px] justify-between"
-              >
-                {/* Micro Ambient Glow Behind Profile on Hover */}
-                <div className="absolute -bottom-16 w-32 h-32 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+              {/* ID Badge Tag */}
+              <div className="absolute bottom-0 inset-x-0 bg-bg-base/90 backdrop-blur-md border-t border-accent/50 p-3 transform translate-y-[30%] group-hover:translate-y-0 transition-transform duration-300 flex flex-col items-start z-30">
+                <span className="font-mono text-[7px] text-ink-muted mb-0.5 uppercase">ID: NODE_{member.id.toString().padStart(3, "0")}</span>
+                <h4 className="font-mono font-bold text-sm text-ink-primary">
+                  {member.name}
+                </h4>
+                <p className="font-mono text-[8px] font-bold text-accent uppercase tracking-widest mt-0.5">
+                  {member.role}
+                </p>
+              </div>
 
-                {/* Profile Circle Frame */}
-                <div className="relative w-28 h-28 rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/40 transition-colors duration-500 shadow-md bg-neutral-900/60 flex items-center justify-center">
-                  
-                  {/* Fallback Initials Avatar (shown while image downloads) */}
-                  <span className="font-mono text-xl font-bold text-white/30 tracking-wider">
-                    {getInitials(member.name)}
-                  </span>
-
-                  {/* Profile Picture — Configured with lazy loading to save bandwidth */}
-                  <img
-                    src={member.img}
-                    alt={member.name}
-                    loading="lazy"
-                    className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500"
-                    onError={(e) => {
-                      // Hide image element if file is missing, falling back to initials background
-                      (e.target as HTMLElement).style.display = "none";
-                    }}
-                  />
-                </div>
-
-                {/* Profile Info */}
-                <div className="mt-4 flex-1 flex flex-col justify-center">
-                  <h4 className="text-lg font-black text-white group-hover:text-primary transition-colors duration-300 tracking-tight leading-tight">
-                    {member.name}
-                  </h4>
-                  <p className="text-[10px] font-bold tracking-widest uppercase text-primary/70 mt-1">
-                    {member.role}
-                  </p>
-                </div>
-
-                {/* Social Nodes */}
-                <div className="flex gap-3 mt-4 pt-4 border-t border-white/5 w-full justify-center relative z-10 select-none">
-                  <a
-                    href={member.githubUrl || "https://github.com"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-primary/25 hover:border-primary/50 hover:shadow-[0_0_12px_rgba(94,163,193,0.3)] transition-all duration-300"
-                  >
-                    <Github className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={member.linkedinUrl || "https://linkedin.com"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-xl bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-primary/25 hover:border-primary/50 hover:shadow-[0_0_12px_rgba(94,163,193,0.3)] transition-all duration-300"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                  </a>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+              {/* Corner accent */}
+              <div className="absolute top-0 right-0 border-b-[20px] border-b-transparent border-r-[20px] border-r-accent/20 group-hover:border-r-accent/50 transition-colors z-20"></div>
+            </div>
+          ))}
+        </div>
 
       </div>
     </section>

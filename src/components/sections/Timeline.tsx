@@ -1,140 +1,141 @@
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import React from "react";
 
-interface TimelineEvent {
-  year: string;
-  date: string;
-  title: string;
-}
+const UPCOMING_EVENTS = [
+  {
+    id: 1,
+    title: "Hack The Future 2025",
+    date: "August 15, 2025",
+    time: "10:00 AM",
+    location: "Main Auditorium, PCU",
+    type: "Hackathon",
+    link: "#"
+  },
+  {
+    id: 2,
+    title: "AI in Production Workshop",
+    date: "September 5, 2025",
+    time: "2:00 PM",
+    location: "Lab 4, Tech Block",
+    type: "Workshop",
+    link: "#"
+  }
+];
 
-const EVENTS: TimelineEvent[] = [
-  { 
-    year: "2025", 
-    date: "12th Jan 2025",
-    title: "Inauguration of PCU IEEE Student Branch", 
+const PAST_EVENTS = [
+  {
+    id: 3,
+    title: "Web3 Summit",
+    date: "March 10, 2025",
+    outcome: "150+ attendees, 12 projects built"
   },
-  { 
-    year: "2025", 
-    date: "25th Jan 2025",
-    title: "Online Workshop – “How to Write a Research Paper”", 
+  {
+    id: 4,
+    title: "System Design Masterclass",
+    date: "February 22, 2025",
+    outcome: "Led by Senior Engineers from Google"
   },
-  { 
-    year: "2025", 
-    date: "27th Feb 2025",
-    title: "Guest Lecture – “AI in Business and Finance”", 
+  {
+    id: 5,
+    title: "IoT Hardware Hack",
+    date: "January 15, 2025",
+    outcome: "First hardware integration event at PCU"
   },
-  { 
-    year: "2025", 
-    date: "6th–8th March 2025",
-    title: "Day Workshop – “Zscaler Cloud Security”", 
-  },
-  { 
-    year: "2025", 
-    date: "17th–28th Mar 2025",
-    title: "Two-Week Training Program – “Software Testing”", 
-  },
-  { 
-    year: "2025", 
-    date: "12th April 2025",
-    title: "Online Webinar – “Research Paper Essentials”", 
-  },
+  {
+    id: 6,
+    title: "Tech Orientation 2024",
+    date: "August 20, 2024",
+    outcome: "Welcomed 300+ new members"
+  }
 ];
 
 export function Timeline() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"]
-  });
-
-  const height = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
   return (
-    <section ref={containerRef} className="py-32 relative bg-background/50 overflow-hidden transform-gpu">
-      {/* Optimized Background Flare */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 blur-[100px] pointer-events-none rounded-full transform-gpu" />
-      
-      <div className="container mx-auto px-6 max-w-6xl relative z-10">
-        <h2 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-32 text-center">Our Journey.</h2>
+    <section id="events" className="py-32 bg-bg-surface relative border-y border-border">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
         
-        <div className="relative">
-          {/* Static Vertical Line */}
-          <div className="absolute left-[38px] md:left-1/2 top-0 bottom-0 w-px bg-white/10 md:-translate-x-1/2" />
-          
-          {/* Enhanced Glowing Vertical Line ("The Comet") */}
-          <motion.div 
-            style={{ height }}
-            className="absolute left-[38px] md:left-1/2 top-0 w-[4px] bg-linear-to-b from-transparent via-primary to-primary md:-translate-x-1/2 shadow-[0_0_30px_rgba(94,163,193,1)] rounded-full z-10" 
+        <div className="mb-16">
+          <h2 className="font-mono text-xs font-bold tracking-widest text-accent uppercase mb-4 flex items-center gap-2">
+            <span className="w-2 h-2 bg-accent shadow-[0_0_8px_rgba(0,194,255,0.8)]"></span>
+            System Schedule
+          </h2>
+          <h3 
+            className="font-mono text-4xl md:text-5xl font-black tracking-tighter text-ink-primary"
+            style={{
+              backgroundImage: "repeating-linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 45%, transparent 45%, transparent 100%)",
+              backgroundSize: "100% 5px",
+              WebkitBackgroundClip: "text",
+              color: "transparent",
+            }}
           >
-             {/* Falling Comet Spark */}
-             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-32 bg-gradient-to-t from-white to-transparent blur-[2px] opacity-70" />
-             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_30px_rgba(255,255,255,1)]" />
-          </motion.div>
-          
-          <div className="space-y-24 md:space-y-32">
-            {EVENTS.map((event, i) => (
-              <div key={i} className={`relative flex flex-col md:flex-row items-start md:items-center group ${i % 2 === 0 ? 'md:justify-end' : 'md:justify-start'}`}>
-                
-                {/* Horizontal Connective Branch (Desktop Only) */}
-                <div className={`hidden md:block absolute top-[50%] h-[2px] bg-linear-to-r ${i % 2 === 0 ? 'left-[50%] from-primary/50 group-hover:from-primary to-transparent' : 'right-[50%] from-transparent to-primary/50 group-hover:to-primary'} w-[5%] transition-colors duration-500 z-10`} />
-
-                {/* Timeline Interactive Node */}
-                <div className="absolute left-[38px] md:left-1/2 w-12 h-12 rounded-full bg-background border border-white/20 -translate-x-1/2 z-20 flex items-center justify-center shadow-lg group-hover:border-primary/50 transition-colors duration-500 mt-2 md:mt-0 will-change-transform group-hover:shadow-[0_0_20px_rgba(94,163,193,0.3)]">
-                   <div className="w-4 h-4 rounded-full bg-white/20 group-hover:bg-white group-hover:shadow-[0_0_20px_rgba(255,255,255,1)] transition-all duration-500 group-hover:scale-125" />
-                </div>
-                
-                {/* Enhanced Content Card Container */}
-                <motion.div 
-                  initial={{ opacity: 0, x: i % 2 === 0 ? 50 : -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-                  className="w-full pl-24 md:pl-0 md:w-[45%] will-change-transform transform-gpu"
-                >
-                  <div className="relative w-full p-6 lg:p-8 rounded-[2rem] bg-black/40 border border-white/10 backdrop-blur-md group-hover:border-primary/50 transition-all duration-700 hover:shadow-[0_0_40px_rgba(94,163,193,0.2)] hover:-translate-y-2 overflow-hidden transform-gpu flex flex-col justify-center">
-                    
-                    {/* Architectural Tech Grid */}
-                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay">
-                       <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                         <defs>
-                           <pattern id={`timeline-grid-${i}`} width="40" height="40" patternUnits="userSpaceOnUse">
-                             <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1" />
-                           </pattern>
-                         </defs>
-                         <rect width="100%" height="100%" fill={`url(#timeline-grid-${i})`} />
-                       </svg>
-                    </div>
-
-                    {/* Internal Dynamic Glow */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl pointer-events-none transform-gpu" />
-                    
-                    {/* High-tech Top Border Line */}
-                    <div className="absolute inset-x-0 top-0 h-[2px] w-full bg-linear-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                    
-                    {/* Massive Year Watermark */}
-                    <div className="absolute -top-4 -right-2 text-7xl md:text-9xl font-black text-white/[0.04] leading-none select-none pointer-events-none transition-colors duration-700 group-hover:text-white/[0.08]">
-                      {event.year}
-                    </div>
-
-                    {/* Content */}
-                    <div className="relative z-10">
-                      <span className="text-sm font-bold tracking-widest text-primary mb-2 flex items-center gap-3">
-                         <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(94,163,193,0.8)]" />
-                         {event.date || event.year}
-                      </span>
-                      <h3 className="text-2xl lg:text-3xl font-black tracking-tighter text-white group-hover:text-primary transition-colors duration-500 leading-tight">
-                        {event.title}
-                      </h3>
-                    </div>
-
-                  </div>
-                </motion.div>
-                
-              </div>
-            ))}
-          </div>
+            Execution Timeline.
+          </h3>
         </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          
+          {/* Upcoming Events */}
+          <div className="lg:col-span-6">
+            <h4 className="font-mono text-[10px] tracking-widest text-ink-secondary mb-8 border-b border-border/50 pb-4 uppercase">
+              // Scheduled Executions
+            </h4>
+            <div className="flex flex-col gap-6">
+              {UPCOMING_EVENTS.map(event => (
+                <div key={event.id} className="bg-bg-base border border-accent/30 p-8 flex flex-col relative overflow-hidden group shadow-[0_0_15px_rgba(0,194,255,0.05)] hover:shadow-[0_0_25px_rgba(0,194,255,0.15)] transition-shadow">
+                  {/* Glitch Effect Border */}
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent shadow-[0_0_10px_rgba(0,194,255,0.8)]"></div>
+                  
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="font-mono text-[9px] font-bold tracking-widest text-bg-base bg-accent px-2 py-1 uppercase">
+                      {event.type}
+                    </span>
+                    <span className="font-mono text-[10px] text-accent">
+                      {event.date}
+                    </span>
+                  </div>
+                  
+                  <h5 className="font-mono font-bold text-xl text-ink-primary mb-2">
+                    {event.title}
+                  </h5>
+                  <p className="font-sans text-sm text-ink-secondary mb-8 font-mono">
+                    <span className="text-accent-warm opacity-80">&gt;</span> {event.time} @ {event.location}
+                  </p>
+                  
+                  <a href={event.link} className="inline-flex items-center gap-2 font-mono text-[10px] font-bold text-accent border border-accent/50 px-6 py-2.5 w-max uppercase tracking-widest hover:bg-accent/10 transition-colors">
+                    Initialize RSVP <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Past Events Timeline */}
+          <div className="lg:col-span-6">
+            <h4 className="font-mono text-[10px] tracking-widest text-ink-secondary mb-8 border-b border-border/50 pb-4 uppercase">
+              // Execution History Logs
+            </h4>
+            <div className="relative border-l border-border/30 ml-2 flex flex-col gap-10 py-4 font-mono">
+              {PAST_EVENTS.map(event => (
+                <div key={event.id} className="relative pl-8 group">
+                  {/* Timeline Dot */}
+                  <div className="absolute left-[-5px] top-1.5 w-2.5 h-2.5 bg-bg-surface border-2 border-ink-muted group-hover:border-accent transition-colors rounded-none transform rotate-45"></div>
+                  
+                  <span className="block text-[10px] text-ink-muted mb-2 tracking-widest uppercase">
+                    [{event.date}]
+                  </span>
+                  <h5 className="font-bold text-sm text-ink-primary mb-2">
+                    {event.title}
+                  </h5>
+                  <p className="text-xs text-ink-secondary">
+                    <span className="text-accent opacity-50">&gt; OUTCOME:</span> {event.outcome}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
   );

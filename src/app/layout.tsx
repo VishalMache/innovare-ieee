@@ -1,29 +1,34 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Plus_Jakarta_Sans, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import React from "react";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SmoothScroll } from "@/components/animations/SmoothScroll";
-import { PageLoader } from "@/components/animations/PageLoader";
-import { Cursor } from "@/components/animations/Cursor";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
-const inter = Inter({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: 'swap',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-heading",
+  weight: "400",
+  variable: "--font-serif",
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "INNOVARE IEEE Student Branch | Innovating the Future",
-  description: "We turn ideas into working tech—fast. The official website of the INNOVARE IEEE Student Branch.",
+  title: "INNOVARE IEEE Student Branch",
+  description: "A community of passionate innovators and tech enthusiasts building solutions that create a better tomorrow.",
 };
 
 export default function RootLayout({
@@ -32,24 +37,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth">
-      <head>
-        <noscript>
-          <style>{`
-            #page-loader { display: none !important; }
-            html { overflow: auto !important; }
-          `}</style>
-        </noscript>
-      </head>
+    <html lang="en" className="light scroll-smooth">
       <body
         className={cn(
-          inter.variable,
-          spaceGrotesk.variable,
-          "antialiased font-sans bg-background text-foreground selection:bg-primary/30"
+          plusJakartaSans.variable,
+          instrumentSerif.variable,
+          jetbrainsMono.variable,
+          "antialiased font-sans bg-background text-foreground selection:bg-accent/30"
         )}
       >
-        <Cursor />
-        <PageLoader />
         <SmoothScroll>
           <Navbar />
           <main className="relative z-10 w-full overflow-hidden flex flex-col">{children}</main>

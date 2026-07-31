@@ -16,31 +16,40 @@ const QUESTIONS = [
 
 export function FAQ() {
   return (
-    <section className="py-32 relative bg-background overflow-hidden border-t border-white/5">
-      <div className="container mx-auto px-6 max-w-4xl">
+    <section id="faq" className="py-24 relative bg-white overflow-hidden border-b border-slate-100">
+      <div className="container max-w-4xl mx-auto px-6 relative z-10">
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-16"
+          viewport={{ once: true }}
+          className="text-center mb-16 select-none"
         >
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-4">Frequently Asked</h2>
-          <p className="text-muted-foreground text-lg">Everything you need to know about joining INNOVARE.</p>
+          <span className="px-4 py-1.5 rounded-full border border-blue-100 bg-blue-50 text-primary text-xs font-bold tracking-[0.2em] uppercase mb-4 inline-block font-heading">
+            Common Inquiries
+          </span>
+          <h2 className="text-3xl md:text-4xl font-heading font-black tracking-tighter mb-4 text-slate-900">
+            Frequently Asked.
+          </h2>
+          <p className="text-slate-500 text-sm md:text-base font-medium max-w-lg mx-auto leading-relaxed">
+            Everything you need to know about joining our local chapter networks.
+          </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="p-6 md:p-8 bg-slate-50/50 border border-slate-200/60 rounded-3xl shadow-2xs relative"
         >
           <Accordion type="single" collapsible className="w-full">
             {QUESTIONS.map((faq, i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="border-white/10">
-                <AccordionTrigger className="text-left text-lg font-medium hover:text-primary transition-colors">
+              <AccordionItem key={i} value={`item-${i}`} className="border-slate-200/50 last:border-b-0 py-1">
+                <AccordionTrigger className="text-left text-sm md:text-base font-heading font-bold text-slate-800 hover:text-primary transition-colors py-4">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground text-base leading-relaxed">
+                <AccordionContent className="text-slate-500 text-xs md:text-sm leading-relaxed pb-4 font-medium">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
