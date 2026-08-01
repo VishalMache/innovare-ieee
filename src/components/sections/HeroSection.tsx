@@ -18,7 +18,7 @@ export function HeroSection() {
       {/* Ambient glow in bg */}
       <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-accent opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
 
-      <div className="container mx-auto px-6 max-w-7xl relative z-10 flex-1 flex flex-col justify-center py-12 md:py-16">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10 flex-1 flex flex-col justify-start pt-2 md:pt-4 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 items-center w-full">
 
           {/* ── Left: Text Content ───────────────────── */}
