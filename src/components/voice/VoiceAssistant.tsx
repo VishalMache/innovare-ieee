@@ -33,31 +33,37 @@ export function VoiceAssistant() {
 
   if (!isOpen) {
     return (
-      <div className="flex flex-col items-center gap-6">
-        <div
-          className="relative cursor-pointer group hover:scale-105 transition-transform duration-300"
-          onClick={() => setIsOpen(true)}
-        >
-          <RobotFace state="idle" size={200} />
+      <button
+        onClick={() => setIsOpen(true)}
+        className="relative flex items-center justify-center w-20 h-20 rounded-full bg-[#050508] border-2 border-accent/40 shadow-[0_0_30px_rgba(0,194,255,0.3)] hover:scale-110 hover:border-accent hover:shadow-[0_0_40px_rgba(0,194,255,0.5)] transition-all duration-300 group cursor-pointer"
+        aria-label="Open NOVA Assistant"
+      >
+        <div className="absolute inset-0 rounded-full bg-accent/20 animate-ping opacity-30 pointer-events-none"></div>
+        {/* Slightly scaled down face for the button */}
+        <div className="scale-75 translate-y-1">
+          <RobotFace state="idle" size={100} />
         </div>
-        <button
-          onClick={() => setIsOpen(true)}
-          className="bg-bg-surface border border-accent/30 px-6 py-2.5 flex items-center justify-center gap-3 hover:bg-accent/10 hover:border-accent shadow-[0_0_15px_rgba(0,194,255,0.15)] transition-all group"
-        >
-          <span className="w-1.5 h-1.5 bg-accent shadow-[0_0_5px_rgba(0,194,255,1)] animate-pulse rounded-full"></span>
-          <span className="font-mono text-[10px] text-accent uppercase tracking-widest font-bold">
-            Click to activate NOVA
-          </span>
-        </button>
-      </div>
+      </button>
     );
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 w-full max-w-sm">
+    <div className="flex flex-col items-center gap-2 w-[340px] bg-[#050508]/95 backdrop-blur-xl border border-accent/30 rounded-3xl p-6 shadow-[0_20px_60px_rgba(0,194,255,0.15)] relative mb-2 origin-bottom-right animate-in zoom-in duration-300">
+      
+      {/* Close Button Top Right */}
+      <button 
+        onClick={() => { stopListening(); setIsOpen(false); }}
+        className="absolute top-4 right-4 p-1.5 text-ink-muted hover:text-white hover:bg-white/10 rounded-full transition-colors"
+        aria-label="Close"
+      >
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
       {/* Robot Face */}
-      <div className="relative">
-        <RobotFace state={state} size={160} />
+      <div className="relative mt-2">
+        <RobotFace state={state} size={120} />
 
         {/* State label floating under face */}
         <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 translate-y-full pt-2">
@@ -125,7 +131,7 @@ export function VoiceAssistant() {
           <button
             onClick={handleMicClick}
             disabled={state === "thinking" || state === "speaking"}
-            className={`flex-1 flex items-center justify-center gap-3 py-3.5 rounded-xl font-sans text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
+            className={`flex-1 flex items-center justify-center gap-3 py-3 rounded-xl font-sans text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
               state === "listening"
                 ? "bg-accent/15 border border-accent text-accent shadow-[0_0_20px_rgba(0,194,255,0.2)]"
                 : state === "thinking" || state === "speaking"
@@ -146,21 +152,10 @@ export function VoiceAssistant() {
             {state === "listening" ? "Stop" : "Speak to NOVA"}
           </button>
         ) : (
-          <div className="flex-1 py-3.5 text-center font-sans text-[10px] rounded-xl text-ink-muted border border-border/30">
+          <div className="flex-1 py-3 text-center font-sans text-[10px] rounded-xl text-ink-muted border border-border/30">
             Voice not supported in this browser
           </div>
         )}
-
-        {/* Close Button */}
-        <button
-          onClick={() => { stopListening(); setIsOpen(false); }}
-          className="p-3.5 rounded-xl border border-border/50 text-ink-muted hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 transition-colors"
-          title="Close assistant"
-        >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="square" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
       </div>
 
     </div>

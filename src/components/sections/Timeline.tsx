@@ -7,7 +7,7 @@ const UPCOMING_EVENTS = [
     title: "Hack The Future 2025",
     date: "August 15, 2025",
     time: "10:00 AM",
-    location: "Main Auditorium, PCU",
+    location: "Main Auditorium",
     type: "Hackathon",
     link: "#"
   },
@@ -39,7 +39,7 @@ const PAST_EVENTS = [
     id: 5,
     title: "IoT Hardware Hack",
     date: "January 15, 2025",
-    outcome: "First hardware integration event at PCU"
+    outcome: "First hardware integration event"
   },
   {
     id: 6,

@@ -6,8 +6,8 @@ const STRIP_WORDS = [
   "FAST EXECUTION",
   "IEEE CERTIFIED",
   "DEEP TECH",
-  "PCU",
-  "MAHARASHTRA",
+  "INNOVATION",
+  "ENGINEERING",
 ];
 
 export function LogosStrip() {

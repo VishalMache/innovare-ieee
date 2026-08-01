@@ -22,7 +22,7 @@ export function WhoWeAre() {
               color: "transparent",
             }}
           >
-            The PCU Builder Syndicate.
+            The Builder Syndicate.
           </h3>
         </div>
 

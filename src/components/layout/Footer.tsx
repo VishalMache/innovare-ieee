@@ -18,7 +18,7 @@ export function Footer() {
           <div className="lg:col-span-2 space-y-6">
             <Link href="/" className="flex items-center gap-3">
               <div className="relative w-8 h-8 rounded-full overflow-hidden border border-accent/30 shadow-[0_0_15px_rgba(0,194,255,0.2)]">
-                <Image src="/images/logo.png" alt="INNOVARE Logo" fill className="object-cover" />
+                <Image src="/images/Innovare%20trans.png" alt="INNOVARE Logo" fill className="object-contain" />
               </div>
               <div className="flex items-baseline gap-1">
                 <span className="font-sans font-bold text-2xl text-ink-primary tracking-tight">INNOVARE</span>
@@ -26,7 +26,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-ink-secondary text-sm max-w-sm leading-relaxed font-mono">
-              The context layer behind intelligent student engineering. Representing the builder culture at PCU Maharashtra.
+              The context layer behind intelligent student engineering. Representing the core builder culture.
             </p>
             <div className="flex gap-4 pt-2">
               <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-ink-muted hover:text-accent hover:drop-shadow-[0_0_8px_rgba(0,194,255,0.8)] transition-all">

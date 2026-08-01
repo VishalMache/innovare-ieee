@@ -19,7 +19,7 @@ export function HeroSection() {
       <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-accent opacity-[0.04] blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10 flex-1 flex flex-col justify-start pt-2 md:pt-4 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 items-center w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 items-start w-full mt-4 md:mt-8">
 
           {/* ── Left: Text Content ───────────────────── */}
           <div className="flex flex-col justify-center">
@@ -27,16 +27,15 @@ export function HeroSection() {
             <div className="flex items-center gap-3 mb-8">
               <span className="w-2 h-2 bg-accent shadow-[0_0_10px_rgba(0,194,255,1)]"></span>
               <span className="font-mono text-[10px] font-bold tracking-widest text-accent uppercase">
-                IEEE Student Branch · PCU Maharashtra
+                IEEE Student Branch
               </span>
             </div>
 
-            {/* Main Headline with striped effect */}
+            {/* Main Headline */}
             <h1
-              className="font-mono text-5xl md:text-6xl lg:text-7xl leading-tight font-black tracking-tighter mb-8"
+              className="font-sans text-5xl md:text-6xl lg:text-[5rem] leading-[1.05] font-black tracking-tight mb-8 drop-shadow-2xl"
               style={{
-                backgroundImage: "repeating-linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 45%, transparent 45%, transparent 100%)",
-                backgroundSize: "100% 5px",
+                backgroundImage: "linear-gradient(to bottom right, #ffffff 30%, #00C2FF 100%)",
                 WebkitBackgroundClip: "text",
                 color: "transparent",
               }}
@@ -45,33 +44,27 @@ export function HeroSection() {
               engineered reality.
             </h1>
 
-            <p className="font-mono text-sm md:text-base text-ink-secondary leading-relaxed max-w-lg mb-10">
+            <p className="font-sans text-base md:text-lg text-ink-secondary/90 leading-relaxed max-w-xl mb-10 font-light">
               Connect conversations, knowledge, workflows, decisions, and systems
               into one living engineering network.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-start gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row items-center gap-5 mb-8">
               <Link
                 href="/#join"
-                className="px-8 py-3.5 bg-accent text-bg-base font-mono font-bold text-sm uppercase tracking-widest hover:bg-white hover:shadow-[0_0_25px_rgba(0,194,255,0.4)] transition-all duration-300 flex items-center gap-2"
+                className="px-8 py-3.5 bg-accent text-bg-base font-sans font-bold text-sm uppercase tracking-widest hover:bg-white hover:shadow-[0_0_25px_rgba(0,194,255,0.4)] transition-all duration-300 flex items-center gap-2 rounded-sm"
               >
                 Apply Now <span>→</span>
               </Link>
               <Link
                 href="/projects"
-                className="px-8 py-3.5 bg-transparent border border-border/50 text-ink-primary font-mono font-bold text-sm uppercase tracking-widest hover:border-accent/50 hover:text-accent transition-all duration-300"
+                className="px-8 py-3.5 bg-transparent border border-border/50 text-ink-primary font-sans font-bold text-sm uppercase tracking-widest hover:border-accent/50 hover:text-accent transition-all duration-300 rounded-sm"
               >
                 View Projects
               </Link>
             </div>
 
-            <p className="font-mono text-[10px] text-ink-muted">
-              to accelerate access, email us{" "}
-              <a href="mailto:core@innovare.org" className="font-bold text-ink-primary hover:text-accent transition-colors underline underline-offset-2">
-                core@innovare.org
-              </a>
-            </p>
 
             {/* Stats Row */}
             <div className="mt-12 pt-8 border-t border-border/40 grid grid-cols-3 gap-6">
@@ -88,20 +81,35 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* ── Right: NOVA Voice Assistant ─────────── */}
-          <div className="flex flex-col items-center justify-center">
-            {/* Label above robot */}
-            <div className="mb-4 flex items-center gap-2">
-              <span className="font-mono text-[10px] text-ink-muted uppercase tracking-widest">N O V A</span>
-              <span className="font-mono text-[10px] text-accent tracking-widest">{"// AI Guide"}</span>
+          {/* ── Right: Logo with Scanlines ─────────── */}
+          <div className="flex flex-col items-center justify-center pt-8 lg:pt-16">
+            <div className="relative w-64 h-64 md:w-80 md:h-80 group perspective-1000">
+               {/* Ambient Glow */}
+               <div className="absolute inset-0 bg-accent/20 blur-[80px] rounded-full group-hover:bg-accent/40 transition-colors duration-700"></div>
+               
+               {/* Logo Container with Holographic/Scanline Effect */}
+               <div className="relative w-full h-full overflow-hidden rounded-full border border-accent/20 bg-black/40 shadow-[0_0_30px_rgba(0,194,255,0.1)] flex items-center justify-center group-hover:border-accent/50 transition-all duration-700">
+                 
+                 {/* The Logo Image */}
+                 {/* eslint-disable-next-line @next/next/no-img-element */}
+                 <img 
+                   src="/images/Innovare%20trans.png" 
+                   alt="INNOVARE Logo" 
+                   className="w-[140%] h-[140%] object-contain relative z-10 group-hover:scale-110 transition-transform duration-700 drop-shadow-[0_0_15px_rgba(0,194,255,0.5)]" 
+                 />
+                 
+                 {/* Scanline overlay */}
+                 <div className="absolute inset-0 z-20 pointer-events-none opacity-40 mix-blend-overlay"
+                   style={{
+                     backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 194, 255, 0.4) 3px, rgba(0, 194, 255, 0.4) 4px)",
+                     backgroundSize: "100% 4px"
+                   }}
+                 ></div>
+                 
+                 {/* Digital Glitch/Scan border inside */}
+                 <div className="absolute inset-0 z-30 border-[4px] border-transparent rounded-full shadow-[inset_0_0_20px_rgba(0,194,255,0.2)]"></div>
+               </div>
             </div>
-
-            <VoiceAssistant />
-
-            {/* Description below */}
-            <p className="mt-8 font-mono text-[10px] text-ink-muted text-center max-w-xs leading-relaxed">
-              NOVA is our voice-driven site navigator. Activate her and ask about projects, events, the team, or how to join.
-            </p>
           </div>
 
         </div>
@@ -128,6 +136,11 @@ export function HeroSection() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Floating Voice Assistant Widget */}
+      <div className="fixed bottom-6 right-6 z-[100] transform transition-transform duration-500 hover:-translate-y-2">
+        <VoiceAssistant />
       </div>
     </section>
   );

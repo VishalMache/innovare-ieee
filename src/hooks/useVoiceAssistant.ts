@@ -83,7 +83,7 @@ const INTENTS: { patterns: RegExp[]; respond: (router: ReturnType<typeof useRout
   {
     patterns: [/about/i, /what is innovare/i, /introduce/i, /tell me/i, /explain/i],
     respond: () => ({
-      text: "INNOVARE is the IEEE Student Branch at PCU Maharashtra. We are a collective of 26 engineers who build, ship, and deploy real-world solutions.",
+      text: "INNOVARE is the IEEE Student Branch. We are a collective of engineers who build, ship, and deploy real-world solutions.",
     }),
   },
   {

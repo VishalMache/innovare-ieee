@@ -28,7 +28,7 @@ export function Navbar() {
             <div className="flex items-center gap-3">
               {/* Fallback styling in case image fails, but normally Next/Image will load it */}
               <div className="relative w-8 h-8 rounded-full overflow-hidden border border-accent/30 shadow-[0_0_15px_rgba(0,194,255,0.2)]">
-                <Image src="/images/logo.png" alt="INNOVARE Logo" fill className="object-cover" />
+                <Image src="/images/Innovare%20trans.png" alt="INNOVARE Logo" fill className="object-contain" />
               </div>
               <div className="flex items-baseline gap-1">
                 <span className="font-sans font-bold text-xl text-ink-primary tracking-tight group-hover:text-accent transition-colors">INNOVARE</span>
